@@ -1,4 +1,7 @@
 ##### Load libraries
+library(tidyverse)
+library(tidymodels)
+library(readxl)
 
 ##### Data preparation
 
@@ -9,3 +12,4 @@
 ##### Model evaluation
 
 ##### Data visualisation
+

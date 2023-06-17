@@ -42,7 +42,17 @@ age_distribution <- age_distribution %>% mutate(total_observations = (aged_15_ye
 # Convert age counts to proportions
 age_distribution <- age_distribution %>% mutate_at(vars("aged_15_years_and_under", "aged_16_to_64_years", "aged_65_years_and_over"), ~ . / total_observations) 
 
+
 ##### Data exploration
+
+### Explore distribution of features to include
+
+# Histograms of features
+hist(population_density$observation)
+hist(age_distribution$aged_15_years_and_under)
+hist(age_distribution$aged_16_to_64_years)
+hist(age_distribution$aged_65_years_and_over)
+
 
 ##### Model building
 

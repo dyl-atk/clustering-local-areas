@@ -36,14 +36,11 @@ age_distribution <- age_distribution %>% pivot_wider(names_from = "age_3_categor
 # Ensure attribute names are tidy
 age_distribution <- age_distribution %>% clean_names()
 
+# Calculate total observations attribute
+age_distribution <- age_distribution %>% mutate(total_observations = (aged_15_years_and_under + aged_16_to_64_years + aged_65_years_and_over))
+
 # Convert age counts to proportions
-age_distribution <- age_distribution %>% mutate_at(c("aged_15_years_and_younger", "aged_16_to_64_years", "aged_65_years_and_older"))
-
-
-
-
-
-
+age_distribution <- age_distribution %>% mutate_at(vars("aged_15_years_and_under", "aged_16_to_64_years", "aged_65_years_and_over"), ~ . / total_observations) 
 
 ##### Data exploration
 

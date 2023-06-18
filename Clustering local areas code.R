@@ -3,6 +3,8 @@ library(tidyverse)
 library(tidymodels)
 library(readxl)
 library(janitor)
+library(cluster)
+library(factoextra)
 
 # Set working directory as current file
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
@@ -60,9 +62,47 @@ nrow(local_area_data)
 # Select only useful columns for clustering model
 local_area_data <- local_area_data %>% select(westminster_parliamentary_constituencies, aged_15_years_and_under, aged_16_to_64_years, aged_65_years_and_over, population_density)
 
+# Set constituency names as row names
+local_area_data <- local_area_data %>% remove_rownames %>% column_to_rownames(var = "westminster_parliamentary_constituencies")
+
+
 ##### Data exploration
 
+### Explore distribution of features to include
+
+# Histograms of features
+hist(population_density$population_density)
+hist(age_distribution$aged_15_years_and_under)
+hist(age_distribution$aged_16_to_64_years)
+hist(age_distribution$aged_65_years_and_over)
+
+# Pairwise plot of features
+pairs(local_area_data)
+
+
 ##### Model building
+
+# Convert all features to same scale to prevent differences in weighting
+local_area_data <- scale(local_area_data)
+
+# Visualise elbow plot to decide optimum number of clusters
+fviz_nbclust(local_area_data, kmeans, method = "wss")
+
+# Build kmeans clustering model with optimum number of clusters
+local_area_model <- kmeans(local_area_data, 3, nstart = 50)
+
+# Assigned cluster for each local area
+local_area_model$cluster
+
+# Size of each cluster
+local_area_model$size
+
+# Mean of each feature for cluster
+local_area_model$centers
+
+# Add cluster labels to original dataset
+local_area_data <- cbind(local_area_data, cluster = local_area_model$cluster)
+
 
 ##### Model evaluation
 

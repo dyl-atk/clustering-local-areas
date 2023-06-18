@@ -5,6 +5,7 @@ library(readxl)
 library(janitor)
 library(cluster)
 library(factoextra)
+library(corrplot)
 
 # Set working directory as current file
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
@@ -66,24 +67,30 @@ local_area_data <- local_area_data %>% select(westminster_parliamentary_constitu
 local_area_data <- local_area_data %>% remove_rownames %>% column_to_rownames(var = "westminster_parliamentary_constituencies")
 
 
+
 ##### Data exploration
 
 ### Explore distribution of features to include
 
-# Histograms of features
+# Histograms of features: assess whether each feature has sufficient variance
 hist(population_density$population_density)
 hist(age_distribution$aged_15_years_and_under)
 hist(age_distribution$aged_16_to_64_years)
 hist(age_distribution$aged_65_years_and_over)
 
-# Pairwise plot of features
+# Pairwise and correlation plots: assess whether variables are highly correlated
 pairs(local_area_data)
+corrplot(cor(local_area_data))
+cor(local_area_data)
+
+# Remove variables which have too little variance, are too highly correlated or are irrelevant
+local_area_data <- local_area_data %>% select(-aged_16_to_64_years)
 
 
 ##### Model building
 
 # Convert all features to same scale to prevent differences in weighting
-local_area_data <- scale(local_area_data)
+local_area_data <- data.frame(scale(local_area_data))
 
 # Visualise elbow plot to decide optimum number of clusters
 fviz_nbclust(local_area_data, kmeans, method = "wss")
@@ -100,8 +107,25 @@ local_area_model$size
 # Mean of each feature for cluster
 local_area_model$centers
 
-# Add cluster labels to original dataset
-local_area_data <- cbind(local_area_data, cluster = local_area_model$cluster)
+# Perform principal component analysis on dataset
+pca <- prcomp(local_area_data, center = FALSE, scale = FALSE)
+
+# View results of principal component analysis
+summary(pca)
+
+# Transform original dataset using PCA values
+local_area_data_pca <- data.frame(predict(pca, local_area_data))
+
+# Make PCA transformed data two-dimensional for easy visualisation
+local_area_data_pca <- local_area_data_pca %>% select(PC1, PC2)
+
+# Add cluster labels to datasets
+local_area_data <- cbind(local_area_data, cluster = as.factor(local_area_model$cluster))
+local_area_data_pca <- cbind(local_area_data_pca, cluster = as.factor(local_area_model$cluster))
+
+# Visualise clusters in two-dimensions
+ggplot(local_area_data_pca, aes(x = PC1, y = PC2, colour = cluster)) +
+  geom_point()
 
 
 ##### Model evaluation

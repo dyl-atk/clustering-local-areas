@@ -6,6 +6,8 @@ library(janitor)
 library(cluster)
 library(factoextra)
 library(corrplot)
+library(sf)
+library(tmap)
 
 # Set working directory as current file
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
@@ -52,13 +54,19 @@ age_distribution <- age_distribution %>% mutate_at(vars("aged_15_years_and_under
 ### Final features dataset
 
 # Bring features to single dataframe
-local_area_data <- full_join(age_distribution, population_density, by = "westminster_parliamentary_constituencies")
+local_area_data <- full_join(age_distribution, population_density, by = "westminster_parliamentary_constituencies_code")
+
+# Remove .x at end of constituency name attribute
+local_area_data <- local_area_data %>% rename(westminster_parliamentary_constituencies = westminster_parliamentary_constituencies.x)
 
 # Check there is no missing data following join (desired result is 0 for each attribute)
 local_area_data %>% map(~ sum(is.na(.)))
 
 # Check there is one row per constituency. There should be 573 constituencies in England and Wales
 nrow(local_area_data)
+
+# Create data frame of constituency names and codes
+local_area_names <- local_area_data %>% select(westminster_parliamentary_constituencies_code, westminster_parliamentary_constituencies)
 
 # Select only useful columns for clustering model
 local_area_data <- local_area_data %>% select(westminster_parliamentary_constituencies, aged_15_years_and_under, aged_16_to_64_years, aged_65_years_and_over, population_density)
@@ -120,7 +128,7 @@ local_area_data_pca <- data.frame(predict(pca, local_area_data))
 local_area_data_pca <- local_area_data_pca %>% select(PC1, PC2)
 
 # Add cluster labels to datasets
-local_area_data <- cbind(local_area_data, cluster = as.factor(local_area_model$cluster))
+local_area_clusters <- cbind(local_area_names, cluster = as.factor(local_area_model$cluster))
 local_area_data_pca <- cbind(local_area_data_pca, cluster = as.factor(local_area_model$cluster))
 
 # Visualise clusters in two-dimensions
@@ -132,3 +140,16 @@ ggplot(local_area_data_pca, aes(x = PC1, y = PC2, colour = cluster)) +
 
 ##### Data visualisation
 
+# Load parliamentary constituencies shapefile
+local_area_shapefile <- st_read("constituencies_shapefile/WPC_Dec_2018_GCB_GB.shp")
+
+# Add cluster assignments to shapefile
+local_area_shapefile_clusters <- left_join(local_area_clusters, local_area_shapefile, by = c("westminster_parliamentary_constituencies_code" = "pcon18cd"))
+
+# Structure new file as shapefile
+local_area_shapefile_clusters <- local_area_shapefile_clusters %>% st_as_sf()
+
+# Create map
+tmap_mode("view")
+tm_shape(local_area_shapefile_clusters) +
+  tm_polygons("cluster", popup.vars = c("Constituency" = "westminster_parliamentary_constituencies"))

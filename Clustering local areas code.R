@@ -8,9 +8,35 @@ library(factoextra)
 library(corrplot)
 library(sf)
 library(tmap)
+library(reactable)
+library(reshape2)
 
 # Set working directory as current file
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+
+# Establish chart theme
+theme_dylan_v1 <- function(){
+  theme_classic() %+replace%
+    theme(
+      panel.background=element_rect(fill="#F9F9F9", colour=NA), 
+      panel.grid.minor=element_blank(), 
+      panel.grid.major=element_line(colour="#F0F0F0", size=0.5),
+      plot.background=element_rect(fill="#F9F9F9", colour=NA),
+      plot.title=element_text(face="bold", size=20, hjust=0, vjust=2.7),
+      plot.subtitle=element_text(size=16, hjust=0, vjust=2.2),
+      plot.caption=element_text(size=8, hjust=1, vjust=4),
+      plot.margin=margin(t=15, l=4, r=4, unit="pt"),
+      legend.position="bottom",
+      legend.title=element_text(size=13),
+      legend.text=element_text(size=11),
+      legend.background=element_blank(),
+      legend.key.height=unit(1, "pt"),
+      axis.text=element_text(size=11),
+      axis.title=element_text(size=13),
+      axis.ticks=element_blank(),
+      axis.line=element_line(colour="#C8C8C8")
+    )
+}
 
 
 ##### Data preparation
@@ -44,14 +70,17 @@ distance_to_work <- distance_to_work %>% pivot_wider(names_from = "distance_trav
 # Ensure attribute names are tidy
 distance_to_work <- distance_to_work %>% clean_names()
 
+# Rename attributes
+distance_to_work <- distance_to_work %>% rename(works_less_than_10km = "less_than_10km", works_10km_and_over = "x10km_and_over")
+
 # Calculate total observations attribute
-distance_to_work <- distance_to_work %>% mutate(total_observations = (less_than_10km + x10km_and_over + works_mainly_from_home + not_in_employment_or_works_mainly_offshore_in_no_fixed_place_or_outside_the_uk))
+distance_to_work <- distance_to_work %>% mutate(total_observations = (works_less_than_10km + works_10km_and_over + works_mainly_from_home + not_in_employment_or_works_mainly_offshore_in_no_fixed_place_or_outside_the_uk))
 
 # Remove irrelevant attributes
 distance_to_work <- distance_to_work %>% subset(select = - c(not_in_employment_or_works_mainly_offshore_in_no_fixed_place_or_outside_the_uk))
 
 # Convert age counts to proportions
-distance_to_work <- distance_to_work %>% mutate_at(vars("less_than_10km", "x10km_and_over", "works_mainly_from_home"), ~ . / total_observations) 
+distance_to_work <- distance_to_work %>% mutate_at(vars("works_less_than_10km", "works_10km_and_over", "works_mainly_from_home"), ~ . / total_observations) 
 
 
 ### Education variable
@@ -181,7 +210,7 @@ nrow(local_area_data)
 local_area_names <- local_area_data %>% select(westminster_parliamentary_constituencies_code, westminster_parliamentary_constituencies)
 
 # Select only useful columns for clustering model
-local_area_data <- local_area_data %>% select(westminster_parliamentary_constituencies, aged_15_years_and_under, aged_16_to_64_years, aged_65_years_and_over, pop_density, good_health, not_good_health, no_qual, level_1_qual, level_2_qual, level_3_qual, level_4_or_above_qual, other_qual, less_than_10km, x10km_and_over, works_mainly_from_home, employed, not_employed)
+local_area_data <- local_area_data %>% select(westminster_parliamentary_constituencies, aged_15_years_and_under, aged_16_to_64_years, aged_65_years_and_over, pop_density, good_health, not_good_health, no_qual, level_1_qual, level_2_qual, level_3_qual, level_4_or_above_qual, other_qual, works_less_than_10km, works_10km_and_over, works_mainly_from_home, employed, not_employed)
 
 # Set constituency names as row names
 local_area_data <- local_area_data %>% remove_rownames %>% column_to_rownames(var = "westminster_parliamentary_constituencies")
@@ -191,10 +220,7 @@ local_area_data <- local_area_data %>% remove_rownames %>% column_to_rownames(va
 ### Explore distribution of features to include
 
 # Histograms of features: assess whether each feature has sufficient variance
-hist(population_density$pop_density)
-hist(age_distribution$aged_15_years_and_under)
-hist(age_distribution$aged_16_to_64_years)
-hist(age_distribution$aged_65_years_and_over)
+hist(local_area_data)
 
 # Pairwise and correlation plots: assess whether variables are highly correlated
 pairs(local_area_data)
@@ -202,40 +228,59 @@ corrplot(cor(local_area_data), method = "number")
 cor(local_area_data)
 
 # Remove variables which have too little variance, are too highly correlated or are irrelevant
-local_area_data <- local_area_data %>% select(-c(good_health))
+local_area_data <- local_area_data %>% select(-c(not_good_health))
 
 
-##### Model building and evaluation
+##### Model building 
 
 # Convert all features to same scale to prevent differences in weighting
 local_area_data <- data.frame(scale(local_area_data))
 
 # Adjust weighting of variables from the same factor
-local_area_data <- local_area_data %>% mutate_at(vars("aged_15_years_and_under", "aged_16_to_64_years", "aged_65_years_and_over"), ~ . / (ncol(age_distribution) - 3)) 
-local_area_data <- local_area_data %>% mutate_at(vars("no_qual", "level_1_qual", "level_2_qual", "level_3_qual", "level_4_or_above_qual", "other_qual"), ~ . / (ncol(education) - 3)) 
-#local_area_data <- local_area_data %>% mutate_at(vars("good_health", "not_good_health"), ~ . / (ncol(health) - 3)) 
-local_area_data <- local_area_data %>% mutate_at(vars("employed", "not_employed"), ~ . / (ncol(employment) - 3)) 
-local_area_data <- local_area_data %>% mutate_at(vars("less_than_10km", "x10km_and_over"), ~ . / (ncol(distance_to_work) - 3)) 
-#local_area_data <- local_area_data %>% mutate_at(vars("pop_density"), ~ . / (ncol(population_density) - 2)) 
+local_area_data_weighted <- local_area_data %>% mutate_at(vars("aged_15_years_and_under", "aged_16_to_64_years", "aged_65_years_and_over"), ~ . / (ncol(age_distribution) - 3)) 
+local_area_data_weighted <- local_area_data_weighted %>% mutate_at(vars("no_qual", "level_1_qual", "level_2_qual", "level_3_qual", "level_4_or_above_qual", "other_qual"), ~ . / (ncol(education) - 3)) 
+#local_area_data_weighted <- local_area_data %>% mutate_at(vars("good_health", "not_good_health"), ~ . / (ncol(health) - 3)) 
+local_area_data_weighted <- local_area_data_weighted %>% mutate_at(vars("employed", "not_employed"), ~ . / (ncol(employment) - 3)) 
+local_area_data_weighted <- local_area_data_weighted %>% mutate_at(vars("works_less_than_10km", "works_10km_and_over"), ~ . / (ncol(distance_to_work) - 3)) 
+#local_area_data_weighted <- local_area_data %>% mutate_at(vars("pop_density"), ~ . / (ncol(population_density) - 2)) 
 
 # Set seed for reproducibility
 set.seed(87473838)
 
 # Visualise elbow plot to decide optimum number of clusters
-fviz_nbclust(local_area_data, kmeans, method = "wss")
-fviz_nbclust(local_area_data, kmeans, method = "silhouette")
+wss <- fviz_nbclust(local_area_data_weighted, kmeans, method = "wss")
+wss
+ggsave("wss_plot.png")
+silhouette <- fviz_nbclust(local_area_data_weighted, kmeans, method = "silhouette")
+silhouette
+ggsave("silhouette_plot.png")
 
-# Build kmeans clustering model with optimum number of clusters
-local_area_model <- kmeans(local_area_data, 5, nstart = 100)
+# Set value of k, number of clusters
+k <- 5
+
+# Build kmeans clustering model
+local_area_model <- kmeans(local_area_data_weighted, k, nstart = 1000)
 
 # Assigned cluster for each local area
 local_area_model$cluster
 
-# Bar plot of cluster cardinality: size of each cluster
-barplot(local_area_model$size)
+# Data frame of mean of each feature for cluster
+local_area_model$centers
+#local_area_model_centres <- data.frame(t((local_area_model$centers)))
 
-# Mean of each feature for cluster
-barplot(local_area_model$centers)
+#local_area_model_centres <- data.frame(t((local_area_model$centers)))
+
+#local_area_model_centres <- data.frame(scale(local_area_model_centres))
+#$cluster <- factor(row.names(local_area_model_centres), ordered = TRUE)
+
+
+##### Model evaluation
+
+# Calculate Within Sum of Squares (WSS) for value of k selected for model
+subset(wss$data$y, wss$data$clusters == k)
+
+# Calculate silhouette score for value of k selected for model
+subset(silhouette$data$y, silhouette$data$clusters == k)
 
 # Perform principal component analysis on dataset
 pca <- prcomp(local_area_data, center = FALSE, scale = FALSE)
@@ -249,16 +294,57 @@ local_area_data_pca <- data.frame(predict(pca, local_area_data))
 # Make PCA transformed data two-dimensional for easy visualisation
 local_area_data_pca <- local_area_data_pca %>% select(PC1, PC2)
 
-# Add cluster labels to datasets
-local_area_clusters <- cbind(local_area_names, cluster = as.factor(local_area_model$cluster))
+# Add cluster labels to PCA dataset
 local_area_data_pca <- cbind(local_area_data_pca, cluster = as.factor(local_area_model$cluster))
 
 # Visualise clusters in two-dimensions
 ggplot(local_area_data_pca, aes(x = PC1, y = PC2, colour = cluster)) +
-  geom_point()
+  geom_point() +
+  labs(title = "Clusters of local areas in two dimensions", subtitle = "England and Wales", caption = "England and Wales Census 2021") +
+  theme_dylan_v1()
 
+ggsave("cluster_plot.png")
+
+# Add cluster labels to local area dataset and location names
+local_area_data <- cbind(local_area_data, cluster = as.factor(local_area_model$cluster))
+local_area_clusters <- cbind(local_area_names, cluster = as.factor(local_area_model$cluster))
+
+# Measure cluster cardinality: size of each cluster
+data.frame(c(1:k), local_area_model$size)
+
+# Plot bar chart of cluster cardinality 
+ggplot(data.frame(c(1:k), local_area_model$size), aes(x = c.1.k., y = local_area_model.size)) +
+  geom_bar(stat = "identity", fill = "dark blue") +
+  geom_text(aes(label = local_area_model.size), colour = "white", vjust = 2) +
+  labs(title = "Size of each cluster", subtitle = "Number of parliamentary constituencies", y = "", x = "Cluster number") +
+  theme_dylan_v1() 
+
+ggsave("cluster_sizes.png")
 
 ##### Data presentation
+
+### ___
+
+# Melt cluster means ready for plotting
+local_area_data_aggregated <- melt(local_area_data)
+
+# Calculate mean standarised value for each cluster
+local_area_data_aggregated <- local_area_data_aggregated %>% group_by(cluster, variable) %>%
+  summarise(mean_value = mean(value))
+
+# Visualise cluster means
+ggplot(local_area_data_aggregated, aes(x = fct_rev(variable), y = mean_value, fill = mean_value > 0)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  facet_grid(~ cluster) +
+  scale_fill_manual(values = c("blue", "orange"), labels = c("Below average", "Above average"), name = "") +
+  labs(title = "Features of each cluster", subtitle = "Compared to average consituency", caption = "England and Wales Census 2021", x = "Model feature", y = "Standard deviations from mean") +
+  theme_dylan_v1() +
+  theme(plot.title.position = "plot")
+
+ggsave("cluster_feature_plot.png")
+
+### Map of local area clusters
 
 # Load parliamentary constituencies shapefile
 local_area_shapefile <- st_read("constituencies_shapefile/WPC_Dec_2018_GCB_GB.shp")
@@ -273,6 +359,8 @@ local_area_shapefile_clusters <- local_area_shapefile_clusters %>% st_as_sf()
 palette <- c("#AA3377", "#CCBB44", "#AAAA00", "#4477AA", "#AA3377")
 
 # Create map
-tmap_mode("view")
+cluster_map <- tmap_mode("view") +
 tm_shape(local_area_shapefile_clusters) +
-  tm_polygons("cluster", popup.vars = c("Constituency" = "westminster_parliamentary_constituencies"), palette = palette)
+  tm_polygons("cluster", popup.vars = c("Constituency" = "westminster_parliamentary_constituencies"))
+
+tmap_save(cluster_map, "cluster_map.html")

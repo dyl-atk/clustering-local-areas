@@ -1,4 +1,6 @@
-##### Load libraries
+##### Setup -----
+
+# Load libraries
 library(tidyverse)
 library(tidymodels)
 library(readxl)
@@ -10,12 +12,13 @@ library(sf)
 library(tmap)
 library(reactable)
 library(reshape2)
+library(Hmisc)
 
-# Set working directory as current file
+# Set working directory as current folder location
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
-# Establish chart theme
-theme_dylan_v1 <- function(){
+# Set standard theme for data visualisations
+chart_theme <- function(){
   theme_classic() %+replace%
     theme(
       panel.background=element_rect(fill="#F9F9F9", colour=NA), 
@@ -38,24 +41,101 @@ theme_dylan_v1 <- function(){
     )
 }
 
+# Set consistent colour palette
+palette <- c("#FFCCCC", "#DDDDDD", "#CCDDAA", "#EEEEBB", "#CCEEFF")
 
-##### Data preparation
 
-### Population density variable
+##### Data preparation -----
 
-# Import population density variable
+### Age distribution factor variables
+
+# Import variables
+age_distribution <- read_excel("age_distribution.xlsx")
+
+# Ensure attribute names are tidy
+age_distribution <- age_distribution %>% clean_names()
+
+# Remove irrelevant attributes
+age_distribution <- age_distribution %>% subset(select = - c(age_3_categories_code))
+
+# Convert from long to wide table
+age_distribution <- age_distribution %>% pivot_wider(names_from = "age_3_categories", values_from = "observation")
+
+# Ensure attribute names are tidy
+age_distribution <- age_distribution %>% clean_names()
+
+# Calculate total observations attribute
+age_distribution <- age_distribution %>% mutate(total_observations = (aged_15_years_and_under + aged_16_to_64_years + aged_65_years_and_over))
+
+# Convert counts to proportions
+age_distribution <- age_distribution %>% mutate_at(vars("aged_15_years_and_under", "aged_16_to_64_years", "aged_65_years_and_over"), ~ . / total_observations) 
+
+### Population density factor variables
+
+# Import variables
 population_density <- read_excel("population_density.xlsx")
 
 # Ensure attribute names are tidy
 population_density <- population_density %>% clean_names()
 
-# Create distinctive attribute name
+# Ensure attribute names are distinctive
 population_density <- population_density %>% rename(pop_density = observation)
 
+### Health factor variables
 
-### Distance to work variable
+# Import variables
+health <- read_excel("health.xlsx")
 
-# Import variable
+# Ensure attribute names are tidy
+health <- health %>% clean_names()
+
+# Remove irrelevant attributes
+health <- health %>% subset(select = - c(general_health_3_categories_code))
+
+# Convert from long to wide table
+health <- health %>% pivot_wider(names_from = "general_health_3_categories", values_from = "observation")
+
+# Ensure attribute names are tidy
+health <- health %>% clean_names()
+
+# Calculate total observations attribute
+health <- health %>% mutate(total_observations = (does_not_apply + good_health + not_good_health))
+
+# Remove irrelevant attributes
+health <- health %>% subset(select = - c(does_not_apply))
+
+# Convert counts to proportions
+health <- health %>% mutate_at(vars("good_health", "not_good_health"), ~ . / total_observations) 
+
+### Education factor variables
+
+# Import variables
+education <- read_excel("education.xlsx")
+
+# Ensure attribute names are tidy
+education <- education %>% clean_names()
+
+# Remove irrelevant attributes
+education <- education %>% subset(select = - c(highest_level_of_qualification_7_categories))
+
+# Convert from long to wide table
+education <- education %>% pivot_wider(names_from = "highest_level_of_qualification_7_categories_code", values_from = "observation")
+
+# Rename attributes
+education <- education %>% rename(does_not_apply = "-8", no_qual = "0", level_1_qual = "1", level_2_qual = "2", level_3_qual = "3", level_4_or_above_qual = "4", other_qual = "5")
+
+# Calculate total observations attribute
+education <- education %>% mutate(total_observations = (does_not_apply + no_qual + level_1_qual + level_2_qual + level_3_qual + level_4_or_above_qual + other_qual))
+
+# Remove irrelevant attributes
+education <- education %>% subset(select = - c(does_not_apply))
+
+# Convert counts to proportions
+education <- education %>% mutate_at(vars("no_qual", "level_1_qual", "level_2_qual", "level_3_qual", "level_4_or_above_qual", "other_qual"), ~ . / total_observations) 
+
+### Distance to work factor variables
+
+# Import variables
 distance_to_work <- read_excel("distance_to_work.xlsx")
 
 # Ensure attribute names are tidy
@@ -79,91 +159,12 @@ distance_to_work <- distance_to_work %>% mutate(total_observations = (works_less
 # Remove irrelevant attributes
 distance_to_work <- distance_to_work %>% subset(select = - c(not_in_employment_or_works_mainly_offshore_in_no_fixed_place_or_outside_the_uk))
 
-# Convert age counts to proportions
+# Convert counts to proportions
 distance_to_work <- distance_to_work %>% mutate_at(vars("works_less_than_10km", "works_10km_and_over", "works_mainly_from_home"), ~ . / total_observations) 
 
+### Employment factor variables
 
-### Education variable
-
-# Import variable
-education <- read_excel("education.xlsx")
-
-# Ensure attribute names are tidy
-education <- education %>% clean_names()
-
-# Remove irrelevant attributes
-education <- education %>% subset(select = - c(highest_level_of_qualification_7_categories))
-
-# Convert from long to wide table
-education <- education %>% pivot_wider(names_from = "highest_level_of_qualification_7_categories_code", values_from = "observation")
-
-# Rename attributes
-education <- education %>% rename(does_not_apply = "-8", no_qual = "0", level_1_qual = "1", level_2_qual = "2", level_3_qual = "3", level_4_or_above_qual = "4", other_qual = "5")
-
-# Calculate total observations attribute
-education <- education %>% mutate(total_observations = (does_not_apply + no_qual + level_1_qual + level_2_qual + level_3_qual + level_4_or_above_qual + other_qual))
-
-# Remove irrelevant attributes
-education <- education %>% subset(select = - c(does_not_apply))
-
-# Convert age counts to proportions
-education <- education %>% mutate_at(vars("no_qual", "level_1_qual", "level_2_qual", "level_3_qual", "level_4_or_above_qual", "other_qual"), ~ . / total_observations) 
-
-
-### Health variable
-
-# Import variable
-health <- read_excel("health.xlsx")
-
-# Ensure attribute names are tidy
-health <- health %>% clean_names()
-
-# Remove irrelevant attributes
-health <- health %>% subset(select = - c(general_health_3_categories_code))
-
-# Convert from long to wide table
-health <- health %>% pivot_wider(names_from = "general_health_3_categories", values_from = "observation")
-
-# Ensure attribute names are tidy
-health <- health %>% clean_names()
-
-# Calculate total observations attribute
-health <- health %>% mutate(total_observations = (does_not_apply + good_health + not_good_health))
-
-# Remove irrelevant attributes
-health <- health %>% subset(select = - c(does_not_apply))
-
-# Convert age counts to proportions
-health <- health %>% mutate_at(vars("good_health", "not_good_health"), ~ . / total_observations) 
-
-
-### Age distribution variable
-
-# Import variable variable
-age_distribution <- read_excel("age_distribution.xlsx")
-
-# Ensure attribute names are tidy
-age_distribution <- age_distribution %>% clean_names()
-
-# Remove irrelevant attributes
-age_distribution <- age_distribution %>% subset(select = - c(age_3_categories_code))
-
-# Convert from long to wide table
-age_distribution <- age_distribution %>% pivot_wider(names_from = "age_3_categories", values_from = "observation")
-
-# Ensure attribute names are tidy
-age_distribution <- age_distribution %>% clean_names()
-
-# Calculate total observations attribute
-age_distribution <- age_distribution %>% mutate(total_observations = (aged_15_years_and_under + aged_16_to_64_years + aged_65_years_and_over))
-
-# Convert age counts to proportions
-age_distribution <- age_distribution %>% mutate_at(vars("aged_15_years_and_under", "aged_16_to_64_years", "aged_65_years_and_over"), ~ . / total_observations) 
-
-
-### Employment variable
-
-# Import variable
+# Import variables
 employment <- read_excel("employment.xlsx")
 
 # Ensure attribute names are tidy
@@ -184,11 +185,10 @@ employment <- employment %>% mutate(total_observations = (does_not_apply + emplo
 # Remove irrelevant attributes
 employment <- employment %>% subset(select = - c(does_not_apply))
 
-# Convert age counts to proportions
+# Convert counts to proportions
 employment <- employment %>% mutate_at(vars("employed", "not_employed"), ~ . / total_observations) 
 
-
-### Final features dataset
+### Dataset of all features
 
 # Bring features to single dataframe
 local_area_data <- full_join(age_distribution, population_density, by = "westminster_parliamentary_constituencies_code") %>%
@@ -215,9 +215,8 @@ local_area_data <- local_area_data %>% select(westminster_parliamentary_constitu
 # Set constituency names as row names
 local_area_data <- local_area_data %>% remove_rownames %>% column_to_rownames(var = "westminster_parliamentary_constituencies")
 
-##### Data exploration
 
-### Explore distribution of features to include
+##### Exploratory data analysis -----
 
 # Histograms of features: assess whether each feature has sufficient variance
 hist(local_area_data)
@@ -231,7 +230,7 @@ cor(local_area_data)
 local_area_data <- local_area_data %>% select(-c(not_good_health))
 
 
-##### Model building 
+##### Model building -----
 
 # Convert all features to same scale to prevent differences in weighting
 local_area_data <- data.frame(scale(local_area_data))
@@ -239,10 +238,8 @@ local_area_data <- data.frame(scale(local_area_data))
 # Adjust weighting of variables from the same factor
 local_area_data_weighted <- local_area_data %>% mutate_at(vars("aged_15_years_and_under", "aged_16_to_64_years", "aged_65_years_and_over"), ~ . / (ncol(age_distribution) - 3)) 
 local_area_data_weighted <- local_area_data_weighted %>% mutate_at(vars("no_qual", "level_1_qual", "level_2_qual", "level_3_qual", "level_4_or_above_qual", "other_qual"), ~ . / (ncol(education) - 3)) 
-#local_area_data_weighted <- local_area_data %>% mutate_at(vars("good_health", "not_good_health"), ~ . / (ncol(health) - 3)) 
 local_area_data_weighted <- local_area_data_weighted %>% mutate_at(vars("employed", "not_employed"), ~ . / (ncol(employment) - 3)) 
 local_area_data_weighted <- local_area_data_weighted %>% mutate_at(vars("works_less_than_10km", "works_10km_and_over"), ~ . / (ncol(distance_to_work) - 3)) 
-#local_area_data_weighted <- local_area_data %>% mutate_at(vars("pop_density"), ~ . / (ncol(population_density) - 2)) 
 
 # Set seed for reproducibility
 set.seed(87473838)
@@ -264,17 +261,11 @@ local_area_model <- kmeans(local_area_data_weighted, k, nstart = 1000)
 # Assigned cluster for each local area
 local_area_model$cluster
 
-# Data frame of mean of each feature for cluster
+# Centre of each cluster for each model variable
 local_area_model$centers
-#local_area_model_centres <- data.frame(t((local_area_model$centers)))
-
-#local_area_model_centres <- data.frame(t((local_area_model$centers)))
-
-#local_area_model_centres <- data.frame(scale(local_area_model_centres))
-#$cluster <- factor(row.names(local_area_model_centres), ordered = TRUE)
 
 
-##### Model evaluation
+##### Model evaluation -----
 
 # Calculate Within Sum of Squares (WSS) for value of k selected for model
 subset(wss$data$y, wss$data$clusters == k)
@@ -282,26 +273,27 @@ subset(wss$data$y, wss$data$clusters == k)
 # Calculate silhouette score for value of k selected for model
 subset(silhouette$data$y, silhouette$data$clusters == k)
 
-# Perform principal component analysis on dataset
-pca <- prcomp(local_area_data, center = FALSE, scale = FALSE)
+# Perform Principal Component Analysis (PCA) on dataset (dimensionality reduction)
+pca <- prcomp(local_area_data_weighted, center = FALSE, scale = FALSE)
 
-# View results of principal component analysis
+# View results of PCA
 summary(pca)
 
 # Transform original dataset using PCA values
-local_area_data_pca <- data.frame(predict(pca, local_area_data))
+local_area_data_pca <- data.frame(predict(pca, local_area_data_weighted))
 
-# Make PCA transformed data two-dimensional for easy visualisation
+# Make PCA transformed data two dimensional for easy visualisation
 local_area_data_pca <- local_area_data_pca %>% select(PC1, PC2)
 
 # Add cluster labels to PCA dataset
 local_area_data_pca <- cbind(local_area_data_pca, cluster = as.factor(local_area_model$cluster))
 
-# Visualise clusters in two-dimensions
+# Visualise clusters in two dimensions
 ggplot(local_area_data_pca, aes(x = PC1, y = PC2, colour = cluster)) +
   geom_point() +
-  labs(title = "Clusters of local areas in two dimensions", subtitle = "England and Wales", caption = "England and Wales Census 2021") +
-  theme_dylan_v1()
+  scale_colour_manual(values = palette) +
+  labs(title = "Clusters of local areas in England and Wales", subtitle = "Simplified to two dimensions", caption = "Parliamentary constituencies, England and Wales Census 2021", colour = "Cluster") +
+  chart_theme()
 
 ggsave("cluster_plot.png")
 
@@ -317,13 +309,13 @@ ggplot(data.frame(c(1:k), local_area_model$size), aes(x = c.1.k., y = local_area
   geom_bar(stat = "identity", fill = "dark blue") +
   geom_text(aes(label = local_area_model.size), colour = "white", vjust = 2) +
   labs(title = "Size of each cluster", subtitle = "Number of parliamentary constituencies", y = "", x = "Cluster number") +
-  theme_dylan_v1() 
+  chart_theme() 
 
 ggsave("cluster_sizes.png")
 
-##### Data presentation
+##### Data visualisation -----
 
-### ___
+### Chart showing feature differences between clusters
 
 # Melt cluster means ready for plotting
 local_area_data_aggregated <- melt(local_area_data)
@@ -339,7 +331,7 @@ ggplot(local_area_data_aggregated, aes(x = fct_rev(variable), y = mean_value, fi
   facet_grid(~ cluster) +
   scale_fill_manual(values = c("blue", "orange"), labels = c("Below average", "Above average"), name = "") +
   labs(title = "Features of each cluster", subtitle = "Compared to average consituency", caption = "England and Wales Census 2021", x = "Model feature", y = "Standard deviations from mean") +
-  theme_dylan_v1() +
+  chart_theme() +
   theme(plot.title.position = "plot")
 
 ggsave("cluster_feature_plot.png")
@@ -355,12 +347,9 @@ local_area_shapefile_clusters <- left_join(local_area_clusters, local_area_shape
 # Structure new file as shapefile
 local_area_shapefile_clusters <- local_area_shapefile_clusters %>% st_as_sf()
 
-# Set colour palette
-palette <- c("#AA3377", "#CCBB44", "#AAAA00", "#4477AA", "#AA3377")
-
 # Create map
 cluster_map <- tmap_mode("view") +
-tm_shape(local_area_shapefile_clusters) +
-  tm_polygons("cluster", popup.vars = c("Constituency" = "westminster_parliamentary_constituencies"))
+  tm_shape(local_area_shapefile_clusters) +
+  tm_polygons("cluster", popup.vars = c("Constituency" = "westminster_parliamentary_constituencies", "Cluster" = "cluster"), id = "westminster_parliamentary_constituencies", title = "Cluster", palette = palette)
 
 tmap_save(cluster_map, "cluster_map.html")

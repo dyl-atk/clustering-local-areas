@@ -1,17 +1,21 @@
 # Clustering parliamentary constituencies with census data
 by Dylan Atkinson
 
-[Executive summary](-**Executive-summary**)
+[Executive summary](#Executive-summary)
 
-[Project findings](-**Project-findings**)
+[Executive summary](#-Executive-summary)
 
-[Literature review](-**Literature-review**)
+[Executive summary](#-**Executive-summary**)
 
-[Methodology](-**Methodology**)
+[Project findings](#-**Project-findings**)
 
-[Project reflections and learnings](-**Project-reflections-and-learnings**)
+[Literature review](#-**Literature-review**)
 
-[References](-**References**)
+[Methodology](#-**Methodology**)
+
+[Project reflections and learnings](#-**Project-reflections-and-learnings**)
+
+[References](#-**References**)
 
 # **Executive summary**
 

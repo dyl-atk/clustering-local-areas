@@ -42,7 +42,7 @@ chart_theme <- function(){
 }
 
 # Set consistent colour palette
-palette <- c("#9467bd", "#d62728", "#2ca02c", "#ff7f0e", "#1f77b4")
+palette <- c("#FFCCCC", "#DDDDDD", "#CCDDAA", "#EEEEBB", "#CCEEFF")
 
 
 ##### Data preparation -----
@@ -219,22 +219,11 @@ local_area_data <- local_area_data %>% remove_rownames %>% column_to_rownames(va
 ##### Exploratory data analysis -----
 
 # Histograms of features: assess whether each feature has sufficient variance
-dev.off()
-png("local_area_hist.png", height = 1080, width = 1080)
 hist(local_area_data)
-dev.off()
 
-# Scatterplot matrix of variables: check for correlation
-png("local_area_pairs.png", height = 1080, width = 1080)
+# Pairwise and correlation plots: assess whether variables are highly correlated
 pairs(local_area_data)
-dev.off()
-
-# Correlation value plot: check for correlation
-png("local_area_corrplot.png", height = 1080, width = 1080)
 corrplot(cor(local_area_data), method = "number")
-dev.off()
-
-# Correlation value: check for correlation
 cor(local_area_data)
 
 # Remove variables which have too little variance, are too highly correlated or are irrelevant
@@ -304,7 +293,7 @@ ggplot(local_area_data_pca, aes(x = PC1, y = PC2, colour = cluster)) +
   geom_point() +
   scale_colour_manual(values = palette) +
   labs(title = "Clusters of local areas in England and Wales", subtitle = "Simplified to two dimensions", caption = "Parliamentary constituencies, England and Wales Census 2021", colour = "Cluster") +
-  chart_theme() 
+  chart_theme()
 
 ggsave("cluster_plot.png")
 
@@ -318,11 +307,11 @@ data.frame(c(1:k), local_area_model$size)
 # Plot bar chart of cluster cardinality 
 ggplot(data.frame(c(1:k), local_area_model$size), aes(x = c.1.k., y = local_area_model.size)) +
   geom_bar(stat = "identity", fill = "dark blue") +
-  geom_text(aes(label = local_area_model.size), colour = "white", vjust = 2, size = 5) +
+  geom_text(aes(label = local_area_model.size), colour = "white", vjust = 2) +
   labs(title = "Size of each cluster", subtitle = "Number of parliamentary constituencies", y = "", x = "Cluster number") +
   chart_theme() 
 
-ggsave("cluster_sizes.png", width = 10, height = 5)
+ggsave("cluster_sizes.png")
 
 ##### Data visualisation -----
 
@@ -335,12 +324,12 @@ local_area_data_aggregated <- melt(local_area_data)
 local_area_data_aggregated <- local_area_data_aggregated %>% group_by(cluster, variable) %>%
   summarise(mean_value = mean(value))
 
-# Visualise cluster means (cluster feature plot)
+# Visualise cluster means
 ggplot(local_area_data_aggregated, aes(x = fct_rev(variable), y = mean_value, fill = mean_value > 0)) +
   geom_bar(stat = "identity") +
   coord_flip() +
   facet_grid(~ cluster) +
-  scale_fill_manual(values = c("#D62728", "#2CA02C"), labels = c("Below average", "Above average"), name = "") +
+  scale_fill_manual(values = c("blue", "orange"), labels = c("Below average", "Above average"), name = "") +
   labs(title = "Features of each cluster", subtitle = "Compared to average consituency", caption = "England and Wales Census 2021", x = "Model feature", y = "Standard deviations from mean") +
   chart_theme() +
   theme(plot.title.position = "plot")
@@ -358,17 +347,9 @@ local_area_shapefile_clusters <- left_join(local_area_clusters, local_area_shape
 # Structure new file as shapefile
 local_area_shapefile_clusters <- local_area_shapefile_clusters %>% st_as_sf()
 
-# Create interactive map
-cluster_map <- tmap_mode("plot") +
+# Create map
+cluster_map <- tmap_mode("view") +
   tm_shape(local_area_shapefile_clusters) +
   tm_polygons("cluster", popup.vars = c("Constituency" = "westminster_parliamentary_constituencies", "Cluster" = "cluster"), id = "westminster_parliamentary_constituencies", title = "Cluster", palette = palette)
 
 tmap_save(cluster_map, "cluster_map.html")
-
-# Create static map image
-cluster_map_image <- tmap_mode("view") +
-  tm_shape(local_area_shapefile_clusters) +
-  tm_polygons("cluster", popup.vars = c("Constituency" = "westminster_parliamentary_constituencies", "Cluster" = "cluster"), id = "westminster_parliamentary_constituencies", title = "Cluster", palette = palette) +
-  tm_layout(frame = FALSE)
-
-tmap_save(cluster_map_image, "cluster_map_image.png")

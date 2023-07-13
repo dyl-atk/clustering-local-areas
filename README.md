@@ -149,7 +149,11 @@ Principal Component Analysis (PCA) is a dimensionality reduction technique. It c
 
 # **Project reflections and learnings**
 
-Hierarchical clustering / soft / fuzzy clustering?
+This project has demonstrated how k-means clustering can be used to group parliamentary constituencies in England and Wales using 2021 census data. Clustering evaluation matrix and viewing the clusters on a two-dimensional scatterplot indicate the five groups each local area is assigned too are appropriately distinct. More importantly, the clusters make sense when viewed on a map of the country. The audience are able to view this for themselves and assess whether areas they are familiar with are grouped with others they would expect.
+
+Changing the number of clusters would significantly alter the results: having more than five groups of constituencies would result in more specific results. Whilst this could build a richer picture of the country, the risk is that increasing the number of clusters could result in overfitting. This could mean clusters that are too similar to each other or local areas falling into a different cluster entirely due to very small differences in census outcomes. 
+
+Another opportunity for further research involves looking at more granular local areas than parliamentary constituencies. Census data is available at electoral ward level so the country could be broken up into much smaller areas. This would result in cluster groupings that are more targeted to local areas and less generic.
 
 # **References**
 

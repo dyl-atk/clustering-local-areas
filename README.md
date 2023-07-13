@@ -35,7 +35,8 @@ The clustering project has found five clusters of parliamentary constituencies i
 | 4          | Thriving commuter belt             | - Young population - Low population density - Good health - Highly educated - Likely to work from home - High employment                  |
 | 5          | Struggling communities             | - Aging population - Low population density - Poor health - Low education - Unlikely to work from home - High unemployment                |
 
-[Access the interactive map showing parliamentary constituencies and their cluster here](https://dyl-atk.github.io/cluster_map.html)
+[![Interactive cluster map](/cluster_map_image.png)](https://dyl-atk.github.io/cluster_map.html)
+[Click to interact with map](https://dyl-atk.github.io/cluster_map.html)
 
 University hubs are densely populated areas with young and healthy populations. These are spread across the country in city centre and university locations. The high amount of students here means employment and education are low as these students do not yet have degrees or jobs.
 
@@ -85,7 +86,7 @@ Principal Component Analysis (PCA) is a dimensionality reduction technique. It c
 
 This clustering project is carried out using the open-source statistical programming language R. This allows the methodology to be reproducible and transparent. The full k-means clustering process can be carried out efficiently in R (Kumar, 2020). Additional packages are available for data processing, model building, model evaluation and data visualisation.
 
-[Access the R code script for this project here](https://github.com/dyl-atk/clustering-local-areas/blob/main/Clustering%20local%20areas%20code.R)
+[Access the R code script for this project here](/Clustering%20local%20areas%20code.R)
 
 ## **Data source**
 
@@ -114,13 +115,19 @@ Next, the imported census data across all the themes are joined into a single da
 
 Exploratory data analysis is used to understand the model’s input data. Histograms are used to visualise the distribution of each variable: for a good clustering model, each variable should have a wide distribution indicating differentiation between local areas that the clustering algorithm can identify. The relationship between variables is explored using a scatterplot matrix and a plot of correlation coefficients. This allows multicollinearity, linear relationships between variables, to be detected (Shin, 2021). Clustering models are more robust to multicollinear inputs than other types of models. Census data by nature is often highly correlated: education, employment and health are strongly linked. Yet a suitable dataset for clustering will include variables with little correlation so there is differentiation to cluster. In this stage, variables with perfect correlation are dropped: good health is perfectly correlated with not good health so only good health is included in the model.
 
+[Histograms](/local_area_hist.png)
+
+[Scatterplot matrix](/local_area_pairs.png)
+
+[Correlation plot](/local_area_corrplot.png)
+
 ## **Model building**
 
 Next, the clustering algorithm is trained on the input data. A key consideration in k-means clustering is the value of k – the number of clusters. The optimum value of k minimises within sum of squares (total squared distance between datapoints and cluster centre) and maximises silhouette score (score of -1 to 1 indicating how well each datapoint fits its assigned cluster) (Banerji, 2021). The range of k was determined to be from 4 to 8 clusters. This restriction ensures that there are enough clusters to make meaningful inferences about the characteristics of local areas but not so many to overcomplicate the model. The optimum value of k will be the value between 4 and 8 that maximises silhouette score. Within sum of squares will always reduce for a higher value of k so the optimum point is the elbow of the curve – where the reduction in k given by taking the next highest k value slows (Anand, 2017). The model is built on the training data with k set as 5. This assigns each parliamentary constituency to one of five clusters.
 
-[Within Sum of Squares plot](https://github.com/dyl-atk/clustering-local-areas/blob/main/wss_plot.png)
+[Within Sum of Squares plot](/wss_plot.png)
 
-[Silhouette plot](https://github.com/dyl-atk/clustering-local-areas/blob/main/silhouette_plot.png)
+[Silhouette plot](/silhouette_plot.png)
 
 ## **Model evaluation**
 

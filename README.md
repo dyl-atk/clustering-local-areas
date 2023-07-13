@@ -1,25 +1,17 @@
 # Clustering parliamentary constituencies with census data
 by Dylan Atkinson
 
-[Executive summary](#Executive-summary)
+[Executive summary](#executive-summary)
 
-[Executive summary](#project-findings)
+[Project findings](#project-findings)
 
-[Executive summary](#Project-findings)
+[Methodology](#methodology)
 
-[Executive summary](#-Project-findings)
+[Literature review](#literature-review)
 
-[Executive summary](#-**Project-findings**)
+[Project reflections and learnings](#project-reflections-and-learnings)
 
-[Project findings](#-**Project-findings**)
-
-[Literature review](#-**Literature-review**)
-
-[Methodology](#-**Methodology**)
-
-[Project reflections and learnings](#-**Project-reflections-and-learnings**)
-
-[References](#-**References**)
+[References](#references)
 
 # **Executive summary**
 
@@ -55,38 +47,6 @@ Typical town and rural communities are the most common cluster category. These a
 The thriving commuter belt has a low population density. The population is young, in good health and well educated. They are likely to work from home and employment rates are high. These areas surround London, covering parts of the South West, South East and Midlands.
 
 Struggling communities have a low population density and their census indicators are linked with deprivation. They have an aging population, poor health and low levels of education. Unemployment rates are high and the population is unlikely to work from home.
-
-# **Literature review**
-
-## **Census data**
-
-In March 2021, the Office for National Statistics conducted the census of England and Wales. The census is a mandatory survey for all households and is designed to build a picture of the country (Office for National Statistics, 2022). The census covers themes such as population, education, identity, housing, health and work. Data across these themes are already available via surveys based on samples. But the key benefit of a census is that it covers the entire population. David Norgrove (2018), Chair of the UK Statistics Authority, explains that “only the census provides consistent statistics for both small areas and small population groups” – the census unlocks a level of detailed analysis that would otherwise be impossible.
-
-The 2021 census was launched following increased public awareness of privacy and data ethics. Wing (2019) identifies privacy and ethics as two key research challenge areas in the data science space. She explains the trade-off between having more data, which opens up opportunities to build better models, and the privacy concerns of pooling vast amounts of data. The census asks people highly sensitive questions: their health, living arrangements and even sexuality. Given that the census is a legal requirement, there are ethical concerns around how census data is stored and shared.
-
-## **Machine learning**
-
-Machine learning is a subset of artificial intelligence where computers are trained with data to solve problems (Brown, 2021). Deloitte (2020) found in their survey of business executives that 97% are using machine learning or plan to use it in the next year.
-
-There are three main types of machine learning. In supervised learning, input data and desired outputs are fed into an algorithm. The algorithm learns from this labelled data and applies these rules when classifying unseen data. Reinforcement learning is where an algorithm is rewarded or punished based on desired behaviour. It is designed to select the optimum output from a set of outputs based on criteria. Finally, there is unsupervised learning, techniques that uncover patterns and insights without explicit human guidance (IBM, n.d.).
-
-Census data is unique in that it is not a sample: the entire population is covered. This restricts the value of the most common supervised machine learning techniques – there is no unseen data to make predictions on. Unsupervised machine learning has the most value to add in extracting insights about the population of England and Wales from census data. A review of machine learning in urban studies found that supervised learning has overshadowed unsupervised learning so far (Wang and Biljecki, 2022). Despite this, the paper emphasised the benefits of unsupervised machine learning in this space: inferring patterns from massive urban studies datasets without requiring pre-determined labels or desired outputs.
-
-## **K-means clustering**
-
-Clustering is an unsupervised machine learning technique that groups similar objects (EMC Education Services, 2015). Clustering techniques observe patterns in the structure of data and use this to identify natural groupings.
-
-k-means is a particular type of clustering, where datapoints are assigned to k clusters (Sharma, 2023). Firstly, k centroids are randomly placed. Datapoints are assigned to their closest centroid. Next the centroid for each cluster is re-initialised to the average of its datapoints. This begins an iterative process where the centroids are recalculated and datapoints reassigned to their closest cluster. These iterative steps optimise the model and are known as Expectation-Maximisation (EM). A key consideration when clustering is how distance between datapoints is measured. Whilst there are many options, Euclidean distance is the most common. Brownlee (2020) states this is the standard method for calculating distance between numerical values, like those in the census.
-
-Rink (2021) discusses four mistakes made in clustering to avoid. These include a failure to do exploratory data analysis, not scaling features appropriately, building no representative clusters and not providing a description of cluster results. As clusters are assigned based on distance between datapoints and centroids, ensuring each variable in the model is on the same scale is critical. Converting values to a z-score is an approach to feature scaling. In this the z-score represents the number of standard deviations from the mean each value is (Frost, 2021). Davidson, Gourru and Ravi (2018) discuss the “cluster description problem” in their paper. The demand for explainable AI means names or descriptions for each cluster are essential to the model realising value. When k is small and the model features are simple, this can be completed manually. But they explain the challenges involved in automating this process, which is a barrier to communicating the results of large, complex clustering models.
-
-There are many examples of clustering used to analyse population and census data. Vilella et al (2020) researched the link between socio-demographic attributes and news consumption. They used Chilean census data to cluster districts into five groups. They found clear correlations between news consumption patterns and socio-demographic groupings. The researchers pre-determined an appropriate range of values of k (between 3 and 8) and considered the optimum value within this range, looking at Gini values. This enabled them to avoid too few or many clusters – an inexplainable model, whilst still optimising the value of k. In another example, researchers estimated trajectories for urban neighbourhoods (Ling and Delmelle, 2016). They use clustering as a secondary part of their analysis to group neighbourhoods with similar trajectories. The clusters allowed them to assign, name and map similar neighbourhoods in US cities effectively and clearly, given the ability of the clusters to summarise complex data about each neighbourhood. But these researchers faced challenges including selecting a suitable value of k and missing data. K-means clustering is limited by missing data (Wagstaff, 2004).
-
-## **Principal component analysis**
-
-A greater emphasis is being placed on explainable AI. IBM regards explainable AI as “one of the key requirements for implementing responsible AI”. These are known as white-box models. Transparency about how models arrive at their conclusions can be critical. Ensuring models are interpretable and explainable builds trust, especially when these models are relied on for important decisions (Tannam, 2019). Clustering models that use many features are challenging to explain: visualisations showing more than two become complex for a non-technical audience to understand. This can make it difficult to share how a clustering algorithm has assigned its clusters. A solution to this is dimensionality reduction: condensing the clustering training dataset and then visualising this.
-
-Principal Component Analysis (PCA) is a dimensionality reduction technique. It creates a set of new uncorrelated variables (Jolliffe and Cadima, 2016). These new variables condense the information contained within the original variables. Most of the original information can be preserved by taking a smaller number of these composite variables. PCA means that a large dataset used for clustering can be simplified, unlocking opportunities for easier communication and visualisation. By taking the first two principal components the clusters can be visualised in a 2-dimensional scatterplot (Kaloyanova, 2021). This is more understandable for a technical audience, but comes at the cost of some information loss from the dataset the clustering algorithm is trained on.
 
 # **Methodology**
 
@@ -154,6 +114,38 @@ The final stage is to communicate the outputs of the cluster models. This involv
 ![Alt text](/cluster_feature_plot.png "")
 
 An interactive map shows which cluster each local area falls into. This allows the audience to identify the cluster a specific parliamentary constituency has been assigned into. It also allows spatial patterns to be identified. Cluster 2, the cluster with an unusually low cardinality represents central London, which has vastly different social and economic characteristics to the rest of the country so makes sense to be a distinct category.
+
+# **Literature review**
+
+## **Census data**
+
+In March 2021, the Office for National Statistics conducted the census of England and Wales. The census is a mandatory survey for all households and is designed to build a picture of the country (Office for National Statistics, 2022). The census covers themes such as population, education, identity, housing, health and work. Data across these themes are already available via surveys based on samples. But the key benefit of a census is that it covers the entire population. David Norgrove (2018), Chair of the UK Statistics Authority, explains that “only the census provides consistent statistics for both small areas and small population groups” – the census unlocks a level of detailed analysis that would otherwise be impossible.
+
+The 2021 census was launched following increased public awareness of privacy and data ethics. Wing (2019) identifies privacy and ethics as two key research challenge areas in the data science space. She explains the trade-off between having more data, which opens up opportunities to build better models, and the privacy concerns of pooling vast amounts of data. The census asks people highly sensitive questions: their health, living arrangements and even sexuality. Given that the census is a legal requirement, there are ethical concerns around how census data is stored and shared.
+
+## **Machine learning**
+
+Machine learning is a subset of artificial intelligence where computers are trained with data to solve problems (Brown, 2021). Deloitte (2020) found in their survey of business executives that 97% are using machine learning or plan to use it in the next year.
+
+There are three main types of machine learning. In supervised learning, input data and desired outputs are fed into an algorithm. The algorithm learns from this labelled data and applies these rules when classifying unseen data. Reinforcement learning is where an algorithm is rewarded or punished based on desired behaviour. It is designed to select the optimum output from a set of outputs based on criteria. Finally, there is unsupervised learning, techniques that uncover patterns and insights without explicit human guidance (IBM, n.d.).
+
+Census data is unique in that it is not a sample: the entire population is covered. This restricts the value of the most common supervised machine learning techniques – there is no unseen data to make predictions on. Unsupervised machine learning has the most value to add in extracting insights about the population of England and Wales from census data. A review of machine learning in urban studies found that supervised learning has overshadowed unsupervised learning so far (Wang and Biljecki, 2022). Despite this, the paper emphasised the benefits of unsupervised machine learning in this space: inferring patterns from massive urban studies datasets without requiring pre-determined labels or desired outputs.
+
+## **K-means clustering**
+
+Clustering is an unsupervised machine learning technique that groups similar objects (EMC Education Services, 2015). Clustering techniques observe patterns in the structure of data and use this to identify natural groupings.
+
+k-means is a particular type of clustering, where datapoints are assigned to k clusters (Sharma, 2023). Firstly, k centroids are randomly placed. Datapoints are assigned to their closest centroid. Next the centroid for each cluster is re-initialised to the average of its datapoints. This begins an iterative process where the centroids are recalculated and datapoints reassigned to their closest cluster. These iterative steps optimise the model and are known as Expectation-Maximisation (EM). A key consideration when clustering is how distance between datapoints is measured. Whilst there are many options, Euclidean distance is the most common. Brownlee (2020) states this is the standard method for calculating distance between numerical values, like those in the census.
+
+Rink (2021) discusses four mistakes made in clustering to avoid. These include a failure to do exploratory data analysis, not scaling features appropriately, building no representative clusters and not providing a description of cluster results. As clusters are assigned based on distance between datapoints and centroids, ensuring each variable in the model is on the same scale is critical. Converting values to a z-score is an approach to feature scaling. In this the z-score represents the number of standard deviations from the mean each value is (Frost, 2021). Davidson, Gourru and Ravi (2018) discuss the “cluster description problem” in their paper. The demand for explainable AI means names or descriptions for each cluster are essential to the model realising value. When k is small and the model features are simple, this can be completed manually. But they explain the challenges involved in automating this process, which is a barrier to communicating the results of large, complex clustering models.
+
+There are many examples of clustering used to analyse population and census data. Vilella et al (2020) researched the link between socio-demographic attributes and news consumption. They used Chilean census data to cluster districts into five groups. They found clear correlations between news consumption patterns and socio-demographic groupings. The researchers pre-determined an appropriate range of values of k (between 3 and 8) and considered the optimum value within this range, looking at Gini values. This enabled them to avoid too few or many clusters – an inexplainable model, whilst still optimising the value of k. In another example, researchers estimated trajectories for urban neighbourhoods (Ling and Delmelle, 2016). They use clustering as a secondary part of their analysis to group neighbourhoods with similar trajectories. The clusters allowed them to assign, name and map similar neighbourhoods in US cities effectively and clearly, given the ability of the clusters to summarise complex data about each neighbourhood. But these researchers faced challenges including selecting a suitable value of k and missing data. K-means clustering is limited by missing data (Wagstaff, 2004).
+
+## **Principal component analysis**
+
+A greater emphasis is being placed on explainable AI. IBM regards explainable AI as “one of the key requirements for implementing responsible AI”. These are known as white-box models. Transparency about how models arrive at their conclusions can be critical. Ensuring models are interpretable and explainable builds trust, especially when these models are relied on for important decisions (Tannam, 2019). Clustering models that use many features are challenging to explain: visualisations showing more than two become complex for a non-technical audience to understand. This can make it difficult to share how a clustering algorithm has assigned its clusters. A solution to this is dimensionality reduction: condensing the clustering training dataset and then visualising this.
+
+Principal Component Analysis (PCA) is a dimensionality reduction technique. It creates a set of new uncorrelated variables (Jolliffe and Cadima, 2016). These new variables condense the information contained within the original variables. Most of the original information can be preserved by taking a smaller number of these composite variables. PCA means that a large dataset used for clustering can be simplified, unlocking opportunities for easier communication and visualisation. By taking the first two principal components the clusters can be visualised in a 2-dimensional scatterplot (Kaloyanova, 2021). This is more understandable for a technical audience, but comes at the cost of some information loss from the dataset the clustering algorithm is trained on.
 
 # **Project reflections and learnings**
 

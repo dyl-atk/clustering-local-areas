@@ -306,7 +306,7 @@ ggplot(local_area_data_pca, aes(x = PC1, y = PC2, colour = cluster)) +
   labs(title = "Clusters of local areas in England and Wales", subtitle = "Simplified to two dimensions", caption = "Parliamentary constituencies, England and Wales Census 2021", colour = "Cluster") +
   chart_theme() 
 
-ggsave("cluster_plot.png", width = 7, height = 7)
+ggsave("cluster_plot.png", width = 10, height = 10)
 
 # Add cluster labels to local area dataset and location names
 local_area_data <- cbind(local_area_data, cluster = as.factor(local_area_model$cluster))
@@ -370,6 +370,6 @@ tmap_save(cluster_map, "cluster_map.html")
 cluster_map_image <- tmap_mode("view") +
   tm_shape(local_area_shapefile_clusters) +
   tm_polygons("cluster", popup.vars = c("Constituency" = "westminster_parliamentary_constituencies", "Cluster" = "cluster"), id = "westminster_parliamentary_constituencies", title = "Cluster", palette = palette) +
-  tm_layout(frame = FALSE)
+  tm_layout(frame = FALSE, title = "Groupings of parliamentary constituencies", legend.position = c("right", "top"), inner.margins = c(0, 0, 0.075, 0), fontface = "bold")
 
 tmap_save(cluster_map_image, "cluster_map_image.png")

@@ -49,6 +49,8 @@ Principal Component Analysis (PCA) is a dimensionality reduction technique. It c
 
 This clustering project is carried out using the open-source statistical programming language R. This allows the methodology to be reproducible and transparent. The full k-means clustering process can be carried out efficiently in R (Kumar, 2020). Additional packages are available for data processing, model building, model evaluation and data visualisation.
 
+[Access the R code script for this project here](https://github.com/dyl-atk/clustering-local-areas/blob/main/Clustering%20local%20areas%20code.R)
+
 ## **Data source**
 
 Data for this project comes from the 2021 census of England and Wales. This offers a rich source of social and economic data at a population level. Census data is available at highly granular levels. For this project, UK parliamentary constituencies have been chosen. These have the benefit of each being of a similar population size, ensuring each area in the model is comparable.
@@ -80,6 +82,10 @@ Exploratory data analysis is used to understand the model’s input data. Histog
 
 Next, the clustering algorithm is trained on the input data. A key consideration in k-means clustering is the value of k – the number of clusters. The optimum value of k minimises within sum of squares (total squared distance between datapoints and cluster centre) and maximises silhouette score (score of -1 to 1 indicating how well each datapoint fits its assigned cluster) (Banerji, 2021). The range of k was determined to be from 4 to 8 clusters. This restriction ensures that there are enough clusters to make meaningful inferences about the characteristics of local areas but not so many to overcomplicate the model. The optimum value of k will be the value between 4 and 8 that maximises silhouette score. Within sum of squares will always reduce for a higher value of k so the optimum point is the elbow of the curve – where the reduction in k given by taking the next highest k value slows (Anand, 2017). The model is built on the training data with k set as 5. This assigns each parliamentary constituency to one of five clusters.
 
+[Within Sum of Squares plot](https://github.com/dyl-atk/clustering-local-areas/blob/main/wss_plot.png)
+
+[Silhouette plot](https://github.com/dyl-atk/clustering-local-areas/blob/main/silhouette_plot.png)
+
 ## **Model evaluation**
 
 The quality of the model’s outputs is then assessed. General clustering evaluation statistics are computed, including within sum of squares and silhouette score. The next step is to visualise the clusters to judge whether the k-means clustering algorithm has made sensible cluster assignments. PCA dimensionality reduction is used to reduce the number of variables in the training dataset (Utami, 2021). The first two principal components are taken so each local area can be visualised on a two-dimensional scatterplot (Singh, 2021). The clusters are shaded onto the scatterplot. The scatterplot shows the groups of datapoints identified as distinct clusters appear reasonable. 
@@ -89,7 +95,6 @@ The quality of the model’s outputs is then assessed. General clustering evalua
 Other metrics such as cluster cardinality show how many datapoints fall into each cluster (Google for Developers, n.d.). As cluster 2 is much smaller than other clusters, this requires further investigation in the data visualisation phase.
 
 ![Alt text](/cluster_sizes.png "")
-
 
 ## **Data visualisation**
 
@@ -111,7 +116,7 @@ The clustering project has found five clusters of parliamentary constituencies i
 | 4          | Thriving commuter belt             | Young population Low population density Good health Highly educated Likely to work from home High employment                  |
 | 5          | Struggling communities             | Aging population Low population density Poor health Low education Unlikely to work from home High unemployment                |
 
-[Access the interactive map showing parliamentary consituencies and their cluster here](https://dyl-atk.github.io/cluster_map.html)
+[Access the interactive map showing parliamentary constituencies and their cluster here](https://dyl-atk.github.io/cluster_map.html)
 
 University hubs are densely populated areas with young and healthy populations. These are spread across the country in city centre and university locations. The high amount of students here means employment and education are low as these students do not yet have degrees or jobs.
 

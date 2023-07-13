@@ -82,13 +82,24 @@ Next, the clustering algorithm is trained on the input data. A key consideration
 
 ## **Model evaluation**
 
-The quality of the model’s outputs is then assessed. General clustering evaluation statistics are computed, including within sum of squares and silhouette score. The next step is to visualise the clusters to judge whether the k-means clustering algorithm has made sensible cluster assignments. PCA dimensionality reduction is used to reduce the number of variables in the training dataset (Utami, 2021). The first two principal components are taken so each local area can be visualised on a two-dimensional scatterplot (Singh, 2021). The clusters are shaded onto the scatterplot. The scatterplot shows the groups of datapoints identified as distinct clusters appear reasonable. Other metrics such as cluster cardinality show how many datapoints fall into each cluster (Google for Developers, n.d.). As cluster 2 is much smaller than other clusters, this requires further investigation in the data visualisation phase.
+The quality of the model’s outputs is then assessed. General clustering evaluation statistics are computed, including within sum of squares and silhouette score. The next step is to visualise the clusters to judge whether the k-means clustering algorithm has made sensible cluster assignments. PCA dimensionality reduction is used to reduce the number of variables in the training dataset (Utami, 2021). The first two principal components are taken so each local area can be visualised on a two-dimensional scatterplot (Singh, 2021). The clusters are shaded onto the scatterplot. The scatterplot shows the groups of datapoints identified as distinct clusters appear reasonable. 
+
+![Alt text](/cluster_plot.png "")
+
+Other metrics such as cluster cardinality show how many datapoints fall into each cluster (Google for Developers, n.d.). As cluster 2 is much smaller than other clusters, this requires further investigation in the data visualisation phase.
+
+![Alt text](/cluster_sizes.png "")
+
 
 ## **Data visualisation**
 
 The final stage is to communicate the outputs of the cluster models. This involves visualising the characteristics of each cluster using a bar chart. This allows inferences to be made as to the census characteristics each cluster features. This allows clusters to be given names so they are more meaningful to a non-technical audience.
 
+![Alt text](/cluster_feature_plot.png "")
+
 An interactive map shows which cluster each local area falls into. This allows the audience to identify the cluster a specific parliamentary constituency has been assigned into. It also allows spatial patterns to be identified. Cluster 2, the cluster with an unusually low cardinality represents central London, which has vastly different social and economic characteristics to the rest of the country so makes sense to be a distinct category.
+
+![Alt text](/cluster_map.html "")
 
 # **Project findings**
 

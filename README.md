@@ -3,9 +3,13 @@ by Dylan Atkinson
 
 [Executive summary](#Executive-summary)
 
-[Executive summary](#-Executive-summary)
+[Executive summary](#project-findings)
 
-[Executive summary](#-**Executive-summary**)
+[Executive summary](#Project-findings)
+
+[Executive summary](#-Project-findings)
+
+[Executive summary](#-**Project-findings**)
 
 [Project findings](#-**Project-findings**)
 

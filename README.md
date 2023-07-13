@@ -113,6 +113,10 @@ The clustering project has found five clusters of parliamentary constituencies i
 | 4          | Thriving commuter belt             | Young population Low population density Good health Highly educated Likely to work from home High employment                  |
 | 5          | Struggling communities             | Aging population Low population density Poor health Low education Unlikely to work from home High unemployment                |
 
+![Alt text](https://dyl-atk.github.io/cluster_map.html "")
+
+https://dyl-atk.github.io/cluster_map.html
+
 University hubs are densely populated areas with young and healthy populations. These are spread across the country in city centre and university locations. The high amount of students here means employment and education are low as these students do not yet have degrees or jobs.
 
 Economic core cities are the rarest and most distinct cluster of local areas. These are very densely populated with a well educated, healthy, working age population. The population are likely to work from home and unlikely to work more than 10km from where they live. These are limited to entirely to central London and Bristol.

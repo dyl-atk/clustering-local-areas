@@ -1,6 +1,18 @@
 # Clustering parliamentary constituencies with census data
 by Dylan Atkinson
 
+[Executive summary](-Executive-summary)
+
+[Project findings](-Project-findings)
+
+[Literature review](-Literature-review)
+
+[Methodology](-Methodology)
+
+[Project reflections and learnings](-Project-reflections-and-learnings)
+
+[References](-References)
+
 # **Executive summary**
 
 This paper explains an approach to using k-means clustering to group local areas into similar categories using census data.
@@ -10,6 +22,30 @@ The model considers six themes: age, population density, health, education, econ
 These clusters identify areas with similar social and economic characteristics across the country. These results could be used for a variety of purposes. These include identifying areas where government investment is most required, businesses selecting locations to expand their business or prospective home movers understanding more about the area they plan to move to.
 
 This clustering framework could be built upon for more detailed analysis. This could include looking at more granular local areas, such as electoral wards. The number of clusters could be increased above five to understand localities in more detail.
+
+# **Project findings**
+
+The clustering project has found five clusters of parliamentary constituencies in England and Wales, using census 2021 data across six themes: age, population density, health, education, economy and employment. Each cluster has been named based on its characteristics.
+
+| Cluster ID | Cluster name                       | Cluster features                                                                                                              |
+|------------|------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| 1          | University hubs                    | Young population Densely populated Lives close to work Good health                                                            |
+| 2          | Economic core cities               | Large working age population Very densely populated Good health Very highly educated Likely to work from home High employment |
+| 3          | Typical town and rural communities | Elderly population Sparesley populated Works far from home Low employment                                                     |
+| 4          | Thriving commuter belt             | Young population Low population density Good health Highly educated Likely to work from home High employment                  |
+| 5          | Struggling communities             | Aging population Low population density Poor health Low education Unlikely to work from home High unemployment                |
+
+[Access the interactive map showing parliamentary constituencies and their cluster here](https://dyl-atk.github.io/cluster_map.html)
+
+University hubs are densely populated areas with young and healthy populations. These are spread across the country in city centre and university locations. The high amount of students here means employment and education are low as these students do not yet have degrees or jobs.
+
+Economic core cities are the rarest and most distinct cluster of local areas. These are very densely populated with a well educated, healthy, working age population. The population are likely to work from home and unlikely to work more than 10km from where they live. These are limited to entirely to central London and Bristol.
+
+Typical town and rural communities are the most common cluster category. These are sparsely populated, with an aging population. Employment is low and people generally work far from where they live. These areas are spread across rural areas of England and Wales.
+
+The thriving commuter belt has a low population density. The population is young, in good health and well educated. They are likely to work from home and employment rates are high. These areas surround London, covering parts of the South West, South East and Midlands.
+
+Struggling communities have a low population density and their census indicators are linked with deprivation. They have an aging population, poor health and low levels of education. Unemployment rates are high and the population is unlikely to work from home.
 
 # **Literature review**
 
@@ -104,31 +140,7 @@ The final stage is to communicate the outputs of the cluster models. This involv
 
 An interactive map shows which cluster each local area falls into. This allows the audience to identify the cluster a specific parliamentary constituency has been assigned into. It also allows spatial patterns to be identified. Cluster 2, the cluster with an unusually low cardinality represents central London, which has vastly different social and economic characteristics to the rest of the country so makes sense to be a distinct category.
 
-# **Project findings**
-
-The clustering project has found five clusters of parliamentary constituencies in England and Wales, using census 2021 data across six themes: age, population density, health, education, economy and employment. Each cluster has been named based on its characteristics.
-
-| Cluster ID | Cluster name                       | Cluster features                                                                                                              |
-|------------|------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| 1          | University hubs                    | Young population Densely populated Lives close to work Good health                                                            |
-| 2          | Economic core cities               | Large working age population Very densely populated Good health Very highly educated Likely to work from home High employment |
-| 3          | Typical town and rural communities | Elderly population Sparesley populated Works far from home Low employment                                                     |
-| 4          | Thriving commuter belt             | Young population Low population density Good health Highly educated Likely to work from home High employment                  |
-| 5          | Struggling communities             | Aging population Low population density Poor health Low education Unlikely to work from home High unemployment                |
-
-[Access the interactive map showing parliamentary constituencies and their cluster here](https://dyl-atk.github.io/cluster_map.html)
-
-University hubs are densely populated areas with young and healthy populations. These are spread across the country in city centre and university locations. The high amount of students here means employment and education are low as these students do not yet have degrees or jobs.
-
-Economic core cities are the rarest and most distinct cluster of local areas. These are very densely populated with a well educated, healthy, working age population. The population are likely to work from home and unlikely to work more than 10km from where they live. These are limited to entirely to central London and Bristol.
-
-Typical town and rural communities are the most common cluster category. These are sparsely populated, with an aging population. Employment is low and people generally work far from where they live. These areas are spread across rural areas of England and Wales.
-
-The thriving commuter belt has a low population density. The population is young, in good health and well educated. They are likely to work from home and employment rates are high. These areas surround London, covering parts of the South West, South East and Midlands.
-
-Struggling communities have a low population density and their census indicators are linked with deprivation. They have an aging population, poor health and low levels of education. Unemployment rates are high and the population is unlikely to work from home.
-
-# **Learnings / future work**
+# **Project reflections and learnings**
 
 Hierarchical clustering / soft / fuzzy clustering?
 

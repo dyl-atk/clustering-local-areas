@@ -1,17 +1,17 @@
 # Clustering parliamentary constituencies with census data
 by Dylan Atkinson
 
-[Executive summary](-Executive-summary)
+[Executive summary](-**Executive-summary**)
 
-[Project findings](-Project-findings)
+[Project findings](-**Project-findings**)
 
-[Literature review](-Literature-review)
+[Literature review](-**Literature-review**)
 
-[Methodology](-Methodology)
+[Methodology](-**Methodology**)
 
-[Project reflections and learnings](-Project-reflections-and-learnings)
+[Project reflections and learnings](-**Project-reflections-and-learnings**)
 
-[References](-References)
+[References](-**References**)
 
 # **Executive summary**
 
@@ -29,11 +29,11 @@ The clustering project has found five clusters of parliamentary constituencies i
 
 | Cluster ID | Cluster name                       | Cluster features                                                                                                              |
 |------------|------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| 1          | University hubs                    | Young population Densely populated Lives close to work Good health                                                            |
-| 2          | Economic core cities               | Large working age population Very densely populated Good health Very highly educated Likely to work from home High employment |
-| 3          | Typical town and rural communities | Elderly population Sparesley populated Works far from home Low employment                                                     |
-| 4          | Thriving commuter belt             | Young population Low population density Good health Highly educated Likely to work from home High employment                  |
-| 5          | Struggling communities             | Aging population Low population density Poor health Low education Unlikely to work from home High unemployment                |
+| 1          | University hubs                    | - Young population - Densely populated - Lives close to work - Good health                                                            |
+| 2          | Economic core cities               | - Large working age population - Very densely populated - Good health - Very highly educated - Likely to work from home - High employment |
+| 3          | Typical town and rural communities | - Elderly population - Sparesley populated - Works far from home - Low employment                                                     |
+| 4          | Thriving commuter belt             | - Young population - Low population density - Good health - Highly educated - Likely to work from home - High employment                  |
+| 5          | Struggling communities             | - Aging population - Low population density - Poor health - Low education - Unlikely to work from home - High unemployment                |
 
 [Access the interactive map showing parliamentary constituencies and their cluster here](https://dyl-atk.github.io/cluster_map.html)
 

@@ -99,8 +99,6 @@ The final stage is to communicate the outputs of the cluster models. This involv
 
 An interactive map shows which cluster each local area falls into. This allows the audience to identify the cluster a specific parliamentary constituency has been assigned into. It also allows spatial patterns to be identified. Cluster 2, the cluster with an unusually low cardinality represents central London, which has vastly different social and economic characteristics to the rest of the country so makes sense to be a distinct category.
 
-![Alt text](/cluster_map.html "")
-
 # **Project findings**
 
 The clustering project has found five clusters of parliamentary constituencies in England and Wales, using census 2021 data across six themes: age, population density, health, education, economy and employment. Each cluster has been named based on its characteristics.
@@ -113,9 +111,7 @@ The clustering project has found five clusters of parliamentary constituencies i
 | 4          | Thriving commuter belt             | Young population Low population density Good health Highly educated Likely to work from home High employment                  |
 | 5          | Struggling communities             | Aging population Low population density Poor health Low education Unlikely to work from home High unemployment                |
 
-![Alt text](https://dyl-atk.github.io/cluster_map.html "")
-
-https://dyl-atk.github.io/cluster_map.html
+[Access the interactive map showing parliamentary consituencies and their cluster here](https://dyl-atk.github.io/cluster_map.html)
 
 University hubs are densely populated areas with young and healthy populations. These are spread across the country in city centre and university locations. The high amount of students here means employment and education are low as these students do not yet have degrees or jobs.
 

@@ -42,7 +42,7 @@ chart_theme <- function(){
 }
 
 # Set consistent colour palette
-palette <- c("#9467bd", "#d62728", "#2ca02c", "#ff7f0e", "#1f77b4")
+palette <- c("#9467BD", "#D62728", "#2CA02C", "#FF7F0E", "#1F77B4")
 
 
 ##### Data preparation -----
@@ -306,7 +306,7 @@ ggplot(local_area_data_pca, aes(x = PC1, y = PC2, colour = cluster)) +
   labs(title = "Clusters of local areas in England and Wales", subtitle = "Simplified to two dimensions", caption = "Parliamentary constituencies, England and Wales Census 2021", colour = "Cluster") +
   chart_theme() 
 
-ggsave("cluster_plot.png")
+ggsave("cluster_plot.png", width = 7, height = 7)
 
 # Add cluster labels to local area dataset and location names
 local_area_data <- cbind(local_area_data, cluster = as.factor(local_area_model$cluster))
@@ -340,12 +340,13 @@ ggplot(local_area_data_aggregated, aes(x = fct_rev(variable), y = mean_value, fi
   geom_bar(stat = "identity") +
   coord_flip() +
   facet_grid(~ cluster) +
-  scale_fill_manual(values = c("#D62728", "#2CA02C"), labels = c("Below average", "Above average"), name = "") +
+  scale_fill_manual(values = c("#003366", "#FF8E00"), labels = c("Below average", "Above average"), name = "") +
   labs(title = "Features of each cluster", subtitle = "Compared to average consituency", caption = "England and Wales Census 2021", x = "Model feature", y = "Standard deviations from mean") +
   chart_theme() +
+  
   theme(plot.title.position = "plot")
 
-ggsave("cluster_feature_plot.png")
+ggsave("cluster_feature_plot.png", width = 10, height = 7)
 
 ### Map of local area clusters
 

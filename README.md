@@ -27,6 +27,9 @@ This clustering framework could be built upon for more detailed analysis. This c
 
 The clustering project has found five clusters of parliamentary constituencies in England and Wales, using census 2021 data across six themes: age, population density, health, education, economy and employment. Each cluster has been named based on its characteristics.
 
+[![Interactive cluster map](/cluster_map_image.png)](https://dyl-atk.github.io/cluster_map.html)
+[Click to interact with map](https://dyl-atk.github.io/cluster_map.html)
+
 | Cluster ID | Cluster name                       | Cluster features                                                                                                              |
 |------------|------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
 | 1          | University hubs                    | - Young population - Densely populated - Lives close to work - Good health                                                            |
@@ -34,9 +37,6 @@ The clustering project has found five clusters of parliamentary constituencies i
 | 3          | Typical town and rural communities | - Elderly population - Sparesley populated - Works far from home - Low employment                                                     |
 | 4          | Thriving commuter belt             | - Young population - Low population density - Good health - Highly educated - Likely to work from home - High employment                  |
 | 5          | Struggling communities             | - Aging population - Low population density - Poor health - Low education - Unlikely to work from home - High unemployment                |
-
-[![Interactive cluster map](/cluster_map_image.png)](https://dyl-atk.github.io/cluster_map.html)
-[Click to interact with map](https://dyl-atk.github.io/cluster_map.html)
 
 University hubs are densely populated areas with young and healthy populations. These are spread across the country in city centre and university locations. The high amount of students here means employment and education are low as these students do not yet have degrees or jobs.
 

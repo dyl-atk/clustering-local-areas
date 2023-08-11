@@ -48,7 +48,19 @@ The thriving commuter belt has a low population density. The population is young
 
 Struggling communities have a low population density and their census indicators are linked with deprivation. They have an aging population, poor health and low levels of education. Unemployment rates are high and the population is unlikely to work from home.
 
+# **Project value**
+
+The value of this project lies in summarising complex data contained within the 2021 census as easily digestable clusters. Rather than the audience looking at the values of lots of variables for every constituency individually, the audience can see this information summarised as one of five clusters. These findings could be used to target investment. Cluster 5 - the struggling communities - clearly needs addiional support to boost health, educational and employment prospects. Regional inequalities are visible - the influence of London on prosperity in the UK is easily visible. This work could be built upon for other applications. Election results could be combined with clusters to determine whether these groups have an impact on voting patterns. This could be used to support political campaigns. 
+
 # **Methodology**
+
+## **Research question**
+
+The purpose of this project is to find groupings of parliamentary constituencies with similar socio-economic characteristics. The initial hypothesis, based on understanding of census data, is that many constituencies will have similar characteristics and will form natural groupings that can be discovered by an algorithm.
+
+## **Choice of algorithm**
+
+The machine learning k-means clustering algorithm was determined to be the most appropriate to extract insights from census data by grouping similiar local areas. The [literature review](#literature-review) section examines the prior research undertaken to decide this.
 
 ## **Choice of tools**
 
@@ -99,7 +111,7 @@ Next, the clustering algorithm is trained on the input data. A key consideration
 
 ## **Model evaluation**
 
-The quality of the model’s outputs is then assessed. General clustering evaluation statistics are computed, including within sum of squares and silhouette score. The next step is to visualise the clusters to judge whether the k-means clustering algorithm has made sensible cluster assignments. PCA dimensionality reduction is used to reduce the number of variables in the training dataset (Utami, 2021). The first two principal components are taken so each local area can be visualised on a two-dimensional scatterplot (Singh, 2021). The clusters are shaded onto the scatterplot. The scatterplot shows the groups of datapoints identified as distinct clusters appear reasonable. 
+The quality of the model’s outputs is then assessed. General clustering evaluation statistics are computed, including within sum of squares and silhouette score. The next step is to visualise the clusters to judge whether the k-means clustering algorithm has made sensible cluster assignments. PCA dimensionality reduction is used to reduce the number of variables in the training dataset (Utami, 2021). The first two principal components are taken so each local area can be visualised on a two-dimensional scatterplot (Singh, 2021). The clusters are shaded onto the scatterplot. The scatterplot shows the groups of datapoints identified as distinct clusters appear reasonable. The cluster plot suggests the initial hypothesis is correct: the clustering algorithm has successfully partitioned the parliamentary constituencies using patterns discovered in census data.
 
 ![Alt text](/cluster_plot.png "")
 
@@ -135,6 +147,8 @@ The 2021 census was launched following increased public awareness of privacy and
 
 Machine learning is a subset of artificial intelligence where computers are trained with data to solve problems (Brown, 2021). Deloitte (2020) found in their survey of business executives that 97% are using machine learning or plan to use it in the next year. The 2021 census is a huge dataset and it would be impossible to mine every insight manually. Machine learning means new insights and patterns can be discovered efficiently.
 
+Despite the benefits of machine learning, there are many risks. Babic et al. (2020) discuss three key risks, including bias or unfair decisions, inaccurate and unreliable decisions and hacking that could affect machine learning solutions. Where crucial decisions rely on these algorithms, people could be harmed. Concept drift is a key challenge when analysing census data. The 2021 census covers a snapshot in time. In the period following the census, there will be changes in respondent's circumstances. This means the training dataset will become less relevant as time goes on, reducing the quality of the model.
+
 There are three main types of machine learning. In supervised learning, input data and desired outputs are fed into an algorithm. The algorithm learns from this labelled data and applies these rules when classifying unseen data. Reinforcement learning is where an algorithm is rewarded or punished based on desired behaviour. It is designed to select the optimum output from a set of outputs based on criteria. Finally, there is unsupervised learning, techniques that uncover patterns and insights without explicit human guidance (IBM, n.d.).
 
 Census data is unique in that it is not a sample: the entire population is covered. This restricts the value of the most common supervised machine learning techniques – there is no unseen data to make predictions on. Unsupervised machine learning has the most value to add in extracting insights about the population of England and Wales from census data. A review of machine learning in urban studies found that supervised learning has overshadowed unsupervised learning so far (Wang and Biljecki, 2022). Despite this, the paper emphasised the benefits of unsupervised machine learning in this space: inferring patterns from massive urban studies datasets without requiring pre-determined labels or desired outputs.
@@ -160,6 +174,8 @@ Principal Component Analysis (PCA) is a dimensionality reduction technique. It c
 # **References**
 
 Anand, S. (2017) Finding Optimal Number of Clusters, R-bloggers. Available at: <https://www.r-bloggers.com/2017/02/finding-optimal-number-of-clusters/> [Accessed 6 July 2023]
+
+Babic, B. et al. (2020) When Machine Learning Goes Off the Rails, Harvard Business Review. Available at: <https://hbr.org/2021/01/when-machine-learning-goes-off-the-rails> [Accessed 11 August 2023]
 
 Banerji, A. (2021) K-Mean \| K Means Clustering \| Methods To Find The Best Value Of K, Analytics Vidhya. Available at: <https://www.analyticsvidhya.com/blog/2021/05/k-mean-getting-the-optimal-number-of-clusters/> [Accessed 6 July 2023]
 

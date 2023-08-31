@@ -1,5 +1,5 @@
 # Clustering parliamentary constituencies with census data
-by Dylan Atkinson
+A data science project
 
 [Executive summary](#executive-summary)
 
@@ -34,13 +34,13 @@ The clustering project has found five clusters of parliamentary constituencies i
 |------------|------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
 | 1          | University hubs                    | - Young population - Densely populated - Lives close to work - Good health                                                            |
 | 2          | Economic core cities               | - Large working age population - Very densely populated - Good health - Very highly educated - Likely to work from home - High employment |
-| 3          | Typical town and rural communities | - Elderly population - Sparesley populated - Works far from home - Low employment                                                     |
+| 3          | Typical town and rural communities | - Elderly population - Sparsely populated - Works far from home - Low employment                                                     |
 | 4          | Thriving commuter belt             | - Young population - Low population density - Good health - Highly educated - Likely to work from home - High employment                  |
 | 5          | Struggling communities             | - Aging population - Low population density - Poor health - Low education - Unlikely to work from home - High unemployment                |
 
 University hubs are densely populated areas with young and healthy populations. These are spread across the country in city centre and university locations. The high amount of students here means employment and education are low as these students do not yet have degrees or jobs.
 
-Economic core cities are the rarest and most distinct cluster of local areas. These are very densely populated with a well educated, healthy, working age population. The population are likely to work from home and unlikely to work more than 10km from where they live. These are limited to entirely to central London and Bristol.
+Economic core cities are the rarest and most distinct cluster of local areas. These are very densely populated with a well-educated, healthy, working age population. The population are likely to work from home and unlikely to work more than 10km from where they live. These are limited to entirely to central London and Bristol.
 
 Typical town and rural communities are the most common cluster category. These are sparsely populated, with an aging population. Employment is low and people generally work far from where they live. These areas are spread across rural areas of England and Wales.
 
@@ -50,7 +50,7 @@ Struggling communities have a low population density and their census indicators
 
 # **Project value**
 
-The value of this project lies in summarising complex data contained within the 2021 census as easily digestable clusters. Rather than the audience looking at the values of lots of variables for every constituency individually, the audience can see this information summarised as one of five clusters. These findings could be used to target investment. Cluster 5 - the struggling communities - clearly needs addiional support to boost health, educational and employment prospects. Regional inequalities are visible - the influence of London on prosperity in the UK is easily visible. This work could be built upon for other applications. Election results could be combined with clusters to determine whether these groups have an impact on voting patterns. This could be used to support political campaigns. 
+The value of this project lies in summarising complex data contained within the 2021 census as easily digestible clusters. Rather than the audience looking at the values of lots of variables for every constituency individually, the audience can see this information summarised as one of five clusters. These findings could be used to target investment. Cluster 5 - the struggling communities - clearly needs additional support to boost health, educational and employment prospects. Regional inequalities are visible - the influence of London on prosperity in the UK is easily visible. This work could be built upon for other applications. Election results could be combined with clusters to determine whether these groups have an impact on voting patterns. This could be used to support political campaigns. 
 
 # **Methodology**
 
@@ -60,7 +60,7 @@ The purpose of this project is to find groupings of parliamentary constituencies
 
 ## **Choice of algorithm**
 
-The machine learning k-means clustering algorithm was determined to be the most appropriate to extract insights from census data by grouping similiar local areas. The [literature review](#literature-review) section examines the prior research undertaken to decide this.
+The machine learning k-means clustering algorithm was determined to be the most appropriate to extract insights from census data by grouping similar local areas. The [literature review](#literature-review) section examines the prior research undertaken to decide this.
 
 ## **Choice of tools**
 
@@ -89,7 +89,7 @@ The k-means clustering model is trained using census data covering six key theme
 
 The census data is downloaded from the ONS website in xlsx format. This is imported into the R Studio environment. The census data contains an observation for each parliamentary constituency for each variable. The imported data is then cleaned and processed: variable names are tidied and irrelevant columns are removed. The data is converted from counts into proportions: for example, the number of people employed is converted to an employment rate.
 
-Next, the imported census data across all the themes are joined into a single dataframe. Initial checks are performed to ensure there are no duplicates or missing data.
+Next, the imported census data across all the themes are joined into a single data frame. Initial checks are performed to ensure there are no duplicates or missing data.
 
 ## **Exploratory data analysis**
 
@@ -129,9 +129,9 @@ An interactive map shows which cluster each local area falls into. This allows t
 
 # **Project reflections and learnings**
 
-This project has demonstrated how k-means clustering can be used to group parliamentary constituencies in England and Wales using 2021 census data. Clustering evaluation matrix and viewing the clusters on a two-dimensional scatterplot indicate the five groups each local area is assigned too are appropriately distinct. More importantly, the clusters make sense when viewed on a map of the country. The audience are able to view this for themselves and assess whether areas they are familiar with are grouped with others they would expect.
+This project has demonstrated how k-means clustering can be used to group parliamentary constituencies in England and Wales using 2021 census data. Clustering evaluation matrix and viewing the clusters on a two-dimensional scatterplot indicate the five groups each local area is assigned too are appropriately distinct. More importantly, the clusters make sense when viewed on a map of the country. The audience can view this for themselves and assess whether areas they are familiar with are grouped with others they would expect.
 
-Changing the number of clusters would significantly alter the results: having more than five groups of constituencies would result in more specific results. Whilst this could build a richer picture of the country, the risk is that increasing the number of clusters could result in overfitting. This could mean clusters that are too similar to each other or local areas falling into a different cluster entirely due to very small differences in census outcomes. 
+Changing the number of clusters would significantly alter the results: having more than five groups of constituencies would result in more specific results. Whilst this could build a richer picture of the country, the risk is that increasing the number of clusters could result in overfitting. This could mean clusters that are too similar or local areas falling into a different cluster entirely due to very small differences in census outcomes. 
 
 Another opportunity for further research involves looking at more granular local areas than parliamentary constituencies. Census data is available at electoral ward level so the country could be broken up into much smaller areas. This would result in cluster groupings that are more targeted to local areas and less generic.
 
@@ -173,60 +173,60 @@ Principal Component Analysis (PCA) is a dimensionality reduction technique. It c
 
 # **References**
 
-Anand, S. (2017) Finding Optimal Number of Clusters, R-bloggers. Available at: <https://www.r-bloggers.com/2017/02/finding-optimal-number-of-clusters/> [Accessed 6 July 2023]
+Anand, S. (2017). Finding Optimal Number of Clusters, R-bloggers. Available at: <https://www.r-bloggers.com/2017/02/finding-optimal-number-of-clusters/> [Accessed 6 July 2023]
 
-Babic, B. et al. (2020) When Machine Learning Goes Off the Rails, Harvard Business Review. Available at: <https://hbr.org/2021/01/when-machine-learning-goes-off-the-rails> [Accessed 11 August 2023]
+Babic, B. et al. (2020). When Machine Learning Goes Off the Rails, Harvard Business Review. Available at: <https://hbr.org/2021/01/when-machine-learning-goes-off-the-rails> [Accessed 11 August 2023]
 
-Banerji, A. (2021) K-Mean \| K Means Clustering \| Methods To Find The Best Value Of K, Analytics Vidhya. Available at: <https://www.analyticsvidhya.com/blog/2021/05/k-mean-getting-the-optimal-number-of-clusters/> [Accessed 6 July 2023]
+Banerji, A. (2021). K-Mean \| K Means Clustering \| Methods To Find The Best Value Of K, Analytics Vidhya. Available at: <https://www.analyticsvidhya.com/blog/2021/05/k-mean-getting-the-optimal-number-of-clusters/> [Accessed 6 July 2023]
 
-Brown, S (2021). Machine learning, explained, MIT Management Sloan School. Available at: <https://mitsloan.mit.edu/ideas-made-to-matter/machine-learning-explained> [Accessed 29 June 2023]
+Brown, S. (2021). Machine learning, explained, MIT Management Sloan School. Available at: <https://mitsloan.mit.edu/ideas-made-to-matter/machine-learning-explained> [Accessed 29 June 2023]
 
-Brownlee, J (2020). 4 Distance Measures for Machine Learning, Machine Learning Mastery. Available at: <https://machinelearningmastery.com/distance-measures-for-machine-learning/> [Accessed 29 June 2023]
+Brownlee, J. (2020). 4 Distance Measures for Machine Learning, Machine Learning Mastery. Available at: <https://machinelearningmastery.com/distance-measures-for-machine-learning/> [Accessed 29 June 2023]
 
-Davidson, Gourru and Ravi (2018). The Cluster Description Problem – Complexity Results, Formulations and Approximations, Advances in Neural Information Processing Systems 31. Available at <https://proceedings.neurips.cc/paper_files/paper/2018/file/3fd60983292458bf7dee75f12d5e9e05-Paper.pdf> [Accessed 29 June 2023]
+Davidson, Gourru and Ravi. (2018). The Cluster Description Problem – Complexity Results, Formulations and Approximations, Advances in Neural Information Processing Systems 31. Available at <https://proceedings.neurips.cc/paper_files/paper/2018/file/3fd60983292458bf7dee75f12d5e9e05-Paper.pdf> [Accessed 29 June 2023]
 
-Deloitte (2020). Becoming an AI-fuelled organisation, Deloitte Insights. Available at: <https://www2.deloitte.com/us/en/insights/focus/cognitive-technologies/state-of-ai-and-intelligent-automation-in-business-survey.html> [Accessed 29 June 2023]
+Deloitte. (2020). Becoming an AI-fuelled organisation, Deloitte Insights. Available at: <https://www2.deloitte.com/us/en/insights/focus/cognitive-technologies/state-of-ai-and-intelligent-automation-in-business-survey.html> [Accessed 29 June 2023]
 
-EMC Education Services (2015). Data Science and Big Data Analytics.
+EMC Education Services. (2015). Data Science and Big Data Analytics.
 
-Frost, J (2021). Z-score: Definition, Formula and Uses, Statistics By Jim. Available at: <https://statisticsbyjim.com/basics/z-score/>. [Accessed 29 June 2023]
+Frost, J. (2021). Z-score: Definition, Formula and Uses, Statistics By Jim. Available at: <https://statisticsbyjim.com/basics/z-score/>. [Accessed 29 June 2023]
 
-Google for Developers (n.d.). Interpret Results and Adjust Clustering, Google for Developers. Available at: <https://developers.google.com/machine-learning/clustering/interpret> [Accessed 6 July 2023]
+Google for Developers. (n.d.). Interpret Results and Adjust Clustering, Google for Developers. Available at: <https://developers.google.com/machine-learning/clustering/interpret> [Accessed 6 July 2023]
 
-IBM (n.d. a). What is unsupervised learning? IBM. Available at: [https://www.ibm.com/topics/unsupervised-learning\#:\~:text=the%20next%20step-,What%20is%20unsupervised%20learning%3F,the%20need%20for%20human%20intervention](https://www.ibm.com/topics/unsupervised-learning#:~:text=the%20next%20step-,What%20is%20unsupervised%20learning%3F,the%20need%20for%20human%20intervention) [Accessed 29 June 2023]
+IBM. (n.d. a). What is unsupervised learning? IBM. Available at: [https://www.ibm.com/topics/unsupervised-learning\#:\~:text=the%20next%20step-,What%20is%20unsupervised%20learning%3F,the%20need%20for%20human%20intervention](https://www.ibm.com/topics/unsupervised-learning#:~:text=the%20next%20step-,What%20is%20unsupervised%20learning%3F,the%20need%20for%20human%20intervention) [Accessed 29 June 2023]
 
-IBM (n.d. b). What is explainable AI (XAI?), IBM. Available at <https://www.ibm.com/watson/explainable-ai> [Accessed 30 June 2023]
+IBM. (n.d. b). What is explainable AI (XAI?), IBM. Available at <https://www.ibm.com/watson/explainable-ai> [Accessed 30 June 2023]
 
 Jolliffe, I.T. and Cadima, J. (2016). Principal component analysis: a review and recent developments, Philosophical Transactions of the Royal Society A. Available at <https://doi.org/10.1098/rsta.2015.0202> [Accessed 30 June 2023]
 
-Kaloyanova, E (2021). How to Combine PCA and K-means Clustering in Python, 365 DataScience. Available at <https://365datascience.com/tutorials/python-tutorials/pca-k-means/> [Accessed 30 June 2023]
+Kaloyanova, E. (2021). How to Combine PCA and K-means Clustering in Python, 365 DataScience. Available at <https://365datascience.com/tutorials/python-tutorials/pca-k-means/> [Accessed 30 June 2023]
 
 Kumar, U. (2020). Clustering in R Programming, GeeksforGeeks. Available at: <https://www.geeksforgeeks.org/clustering-in-r-programming/> [Accessed 6 July 2023]
 
-Ling, C. and Delmelle, E.C. (2016) ‘Classifying multidimensional trajectories of neighbourhood change: a self-organizing map andk-means approach’, Annals of GIS, pp. 1–14. Available at: <https://doi.org/10.1080/19475683.2016.1191545> [Accessed 30 June 2023]
+Ling, C. and Delmelle, E.C. (2016). ‘Classifying multidimensional trajectories of neighbourhood change: a self-organizing map andk-means approach’, Annals of GIS, pp. 1–14. Available at: <https://doi.org/10.1080/19475683.2016.1191545> [Accessed 30 June 2023]
 
 Norgrove, D. (2018). Help Shape Our Future – The 2021 Census of Population and Housing in England and Wales. Available at: <https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/765089/Census2021WhitePaper.pdf> [Accessed 29 June 2023]
 
-Office for National Statistics. (2022) About the census. Available at: <https://www.ons.gov.uk/census/aboutcensus/aboutthecensus> [Accessed 29 June 2023]
+Office for National Statistics. (2022). About the census. Available at: <https://www.ons.gov.uk/census/aboutcensus/aboutthecensus> [Accessed 29 June 2023]
 
-Rimon, M (2020). Understand 3 Key Types of Machine Learning, Gartner. Available at: <https://www.gartner.com/smarterwithgartner/understand-3-key-types-of-machine-learning> [Accessed 29 June 2023]
+Rimon, M. (2020). Understand 3 Key Types of Machine Learning, Gartner. Available at: <https://www.gartner.com/smarterwithgartner/understand-3-key-types-of-machine-learning> [Accessed 29 June 2023]
 
-Rink, K (2021). Four mistakes in Clustering you should avoid, Towards Data Science. Available at <https://towardsdatascience.com/common-mistakes-in-cluster-analysis-and-how-to-avoid-them-eb960116d773> [Accessed 29 June 2023]
+Rink, K. (2021). Four mistakes in Clustering you should avoid, Towards Data Science. Available at <https://towardsdatascience.com/common-mistakes-in-cluster-analysis-and-how-to-avoid-them-eb960116d773> [Accessed 29 June 2023]
 
-Sharma, N (2023). K-Means Clustering Explained, Neptune AI. Available at: <https://neptune.ai/blog/k-means-clustering> [Accessed 29 June 2023]
+Sharma, N. (2023). K-Means Clustering Explained, Neptune AI. Available at: <https://neptune.ai/blog/k-means-clustering> [Accessed 29 June 2023]
 
-Shin, T. (2021) Understanding Multicollinearity and How to Detect it in Python, Medium. Available at: <https://towardsdatascience.com/everything-you-need-to-know-about-multicollinearity-2f21f082d6dc> [Accessed 6 July 2023]
+Shin, T. (2021). Understanding Multicollinearity and How to Detect it in Python, Medium. Available at: <https://towardsdatascience.com/everything-you-need-to-know-about-multicollinearity-2f21f082d6dc> [Accessed 6 July 2023]
 
-Singh, S. (2022) K Means Clustering on High Dimensional Data., The Startup. Available at: <https://medium.com/swlh/k-means-clustering-on-high-dimensional-data-d2151e1a4240> [Accessed 6 July 2023]
+Singh, S. (2022). K Means Clustering on High Dimensional Data., The Startup. Available at: <https://medium.com/swlh/k-means-clustering-on-high-dimensional-data-d2151e1a4240> [Accessed 6 July 2023]
 
 Tannam, E. (2019). What are the benefits of white-box models in machine learning? [online] Silicon Republic. Available at: https://www.siliconrepublic.com/enterprise/white-box-machine-learning\#:\~:text=White%2Dbox%20models%20help%20organisations [Accessed 30 Jun 2023].
 
-Utami, Z.D. (2021) Implementation of Principal Component Analysis (PCA) on K-Means Clustering in R, Medium. Available at: <https://medium.com/@zullinira23/implementation-of-principal-component-analysis-pca-on-k-means-clustering-in-r-794f03ec15f> [Accessed 6 July 2023]
+Utami, Z.D. (2021). Implementation of Principal Component Analysis (PCA) on K-Means Clustering in R, Medium. Available at: <https://medium.com/@zullinira23/implementation-of-principal-component-analysis-pca-on-k-means-clustering-in-r-794f03ec15f> [Accessed 6 July 2023]
 
-Vilella et al (2020). News and the city: understanding online press consumption patterns through mobile data. EPJ Data Science. Available at <https://doi.org/10.1140/epjds/s13688-020-00228-9> [Accessed 29 June 2023]
+Vilella et al. (2020). News and the city: understanding online press consumption patterns through mobile data. EPJ Data Science. Available at <https://doi.org/10.1140/epjds/s13688-020-00228-9> [Accessed 29 June 2023]
 
-Wagstaff, K. (2004) ‘Clustering with Missing Values: No Imputation Required’, Classification, Clustering, and Data Mining Applications, pp. 649–658. Available at: <https://doi.org/10.1007/978-3-642-17103-1_61> [Accessed 30 June 2023]
+Wagstaff, K. (2004). ‘Clustering with Missing Values: No Imputation Required’, Classification, Clustering, and Data Mining Applications, pp. 649–658. Available at: <https://doi.org/10.1007/978-3-642-17103-1_61> [Accessed 30 June 2023]
 
-Wang, J and Biljecki F (2022). Unsupervised machine learning in urban studies: A systematic review of applications, Cities. Available at: <https://doi.org/10.1016/j.cities.2022.103925> [Accessed 29 June 2023]
+Wang, J and Biljecki F. (2022). Unsupervised machine learning in urban studies: A systematic review of applications, Cities. Available at: <https://doi.org/10.1016/j.cities.2022.103925> [Accessed 29 June 2023]
 
-Wing, J (2019). Ten Research Challenge Areas in Data Science, Columbia University Data Science Institute. Available at: <https://datascience.columbia.edu/news/2019/ten-research-challenge-areas-in-data-science/> [Accessed 29 June 2023]
+Wing, J. (2019). Ten Research Challenge Areas in Data Science, Columbia University Data Science Institute. Available at: <https://datascience.columbia.edu/news/2019/ten-research-challenge-areas-in-data-science/> [Accessed 29 June 2023]

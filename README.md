@@ -40,7 +40,7 @@ The clustering project has found five clusters of parliamentary constituencies i
 
 University hubs are densely populated areas with young and healthy populations. These are spread across the country in city centre and university locations. The high amount of students here means employment and education are low as these students do not yet have degrees or jobs.
 
-Economic core cities are the rarest and most distinct cluster of local areas. These are very densely populated with a well-educated, healthy, working age population. The population are likely to work from home and unlikely to work more than 10km from where they live. These are limited to entirely to central London and Bristol.
+Economic core cities are the rarest and most distinct cluster of local areas. These are very densely populated with a well-educated, healthy, working age population. The population are likely to work from home and unlikely to work more than 10km from where they live. These are limited to central London and Bristol.
 
 Typical town and rural communities are the most common cluster category. These are sparsely populated, with an aging population. Employment is low and people generally work far from where they live. These areas are spread across rural areas of England and Wales.
 
@@ -50,7 +50,7 @@ Struggling communities have a low population density and their census indicators
 
 # **Project value**
 
-The value of this project lies in summarising complex data contained within the 2021 census as easily digestible clusters. Rather than the audience looking at the values of lots of variables for every constituency individually, the audience can see this information summarised as one of five clusters. These findings could be used to target investment. Cluster 5 - the struggling communities - clearly needs additional support to boost health, educational and employment prospects. Regional inequalities are visible - the influence of London on prosperity in the UK is easily visible. This work could be built upon for other applications. Election results could be combined with clusters to determine whether these groups have an impact on voting patterns. This could be used to support political campaigns. 
+The value of this project lies in summarising complex data contained within the 2021 census as easily digestible clusters. Rather than the audience looking at the values of lots of variables for every constituency individually, the audience can see this information summarised as one of five clusters. These findings could be used to target investment. Cluster 5 - the struggling communities - clearly need additional support to boost health, educational and employment prospects. Regional inequalities are visible - the influence of London on prosperity in the UK is striking. This work could be built upon for other applications. Election results could be combined with clusters to determine whether these groups have an impact on voting patterns. This could be used to support political campaigns. 
 
 # **Methodology**
 
@@ -78,16 +78,16 @@ The k-means clustering model is trained using census data covering six key theme
 
 | Theme              | Variables                                                                                                                                                      |
 |--------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Age                | Aged 15 years and under (%) Aged 16 to 64 years (%) Aged 65 years and over (%)                                                                                 |
-| Population density | Population density                                                                                                                                             |
-| Health             | Good health (%) Not good health (%)                                                                                                                            |
-| Education          | No qualifications (%) Level 1 qualification (%) Level 2 qualification (%) Level 3 qualification (%) Level 4 or above qualification (%) Other qualification (%) |
-| Economy            | Works less than 10km from home (%) Works 10km and over from home (%) Works mainly from home (%)                                                                |
-| Employment         | Employed (%) Not employed (%)                                                                                                                                  |
+| Age                | - Aged 15 years and under (%) - Aged 16 to 64 years (%) - Aged 65 years and over (%)                                                                                 |
+| Population density | - Population density                                                                                                                                             |
+| Health             | - Good health (%) - Not good health (%)                                                                                                                            |
+| Education          | - No qualifications (%) - Level 1 qualification (%) - Level 2 qualification (%) - Level 3 qualification (%) - Level 4 or above qualification (%) - Other qualification (%) |
+| Economy            | - Works less than 10km from home (%) - Works 10km and over from home (%) - Works mainly from home (%)                                                                |
+| Employment         | - Employed (%) - Not employed (%)                                                                                                                                  |
 
 ## **Data preparation**
 
-The census data is downloaded from the ONS website in xlsx format. This is imported into the R Studio environment. The census data contains an observation for each parliamentary constituency for each variable. The imported data is then cleaned and processed: variable names are tidied and irrelevant columns are removed. The data is converted from counts into proportions: for example, the number of people employed is converted to an employment rate.
+The census data is downloaded from the ONS website in .xlsx format. This is imported into the R Studio environment. The census data contains an observation for each parliamentary constituency for each variable. The imported data is then cleaned and processed: variable names are tidied and irrelevant columns are removed. The data is converted from counts into proportions: for example, the number of people employed is converted to an employment rate.
 
 Next, the imported census data across all the themes are joined into a single data frame. Initial checks are performed to ensure there are no duplicates or missing data.
 
@@ -129,7 +129,7 @@ An interactive map shows which cluster each local area falls into. This allows t
 
 # **Project reflections and learnings**
 
-This project has demonstrated how k-means clustering can be used to group parliamentary constituencies in England and Wales using 2021 census data. Clustering evaluation matrix and viewing the clusters on a two-dimensional scatterplot indicate the five groups each local area is assigned too are appropriately distinct. More importantly, the clusters make sense when viewed on a map of the country. The audience can view this for themselves and assess whether areas they are familiar with are grouped with others they would expect.
+This project has demonstrated how k-means clustering can be used to group parliamentary constituencies in England and Wales using 2021 census data. Viewing the clusters on a two-dimensional scatterplot indicated the five groups each local area is assigned too are appropriately distinct. More importantly, the clusters make sense when viewed on a map of the country. The audience can see this for themselves and assess whether areas they are familiar with are grouped with others they would expect.
 
 Changing the number of clusters would significantly alter the results: having more than five groups of constituencies would result in more specific results. Whilst this could build a richer picture of the country, the risk is that increasing the number of clusters could result in overfitting. This could mean clusters that are too similar or local areas falling into a different cluster entirely due to very small differences in census outcomes. 
 
